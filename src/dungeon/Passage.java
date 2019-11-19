@@ -59,6 +59,14 @@ public class Passage extends Space {
     }
 
     /**
+     * gets the number of passageSections in the passage.
+     * @return integer
+     */
+    public int getNumSections() {
+        return thePassage.size();
+    }
+
+    /**
      * resets the number of passages.
      */
     @Override
@@ -260,7 +268,7 @@ public class Passage extends Space {
     public String getDescription() {
         PassageSection temp;
         String toReturn = new String();
-        toReturn = toReturn.concat("\nPassage Number: " + (getSpaceNum() + 1) + "\n");
+        toReturn = toReturn.concat("Passage Number: " + (getSpaceNum() + 1) + "\n");
         for (int i = 0; i < thePassage.size(); i++)  {
             temp = thePassage.get(i);
             toReturn = toReturn.concat("\tSection " + (i + 1) + ": " + temp.getDescription() + "\n");

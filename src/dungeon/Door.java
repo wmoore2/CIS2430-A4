@@ -1,12 +1,13 @@
 package dungeon;
 
 import dnd.models.Trap;
+import java.util.Collections;
 import dnd.die.D20;
 import dnd.die.D10;
 import dnd.die.D6;
 import java.util.ArrayList;
 
-public class Door {
+public class Door implements Cloneable{
     /**
      * constant for archway.
      */
@@ -136,7 +137,7 @@ public class Door {
     /**
      * makes the door an archway.
      */
-    private void makeArchway() {
+    public void makeArchway() {
         setArchway(true);
         setOpen(true);
     }
@@ -246,6 +247,27 @@ public class Door {
     }
 
     /**
+     * clones.
+     * @return idk
+     * @throws CloneNotSupportedException idk
+     */
+    public Object clone() throws CloneNotSupportedException {
+        Door toReturn = (Door)super.clone();
+        toReturn.spaceList = new ArrayList<Space>();
+        toReturn.spaceList.addAll(getSpaces());
+        toReturn.connectedTo = connectedTo;
+        return toReturn;
+    }
+
+    /**
+     * reverses the door. swaps the incoming space and the outgoing space as well as the connection type.
+     */
+    public void reverseDoor() {
+        Collections.swap(spaceList, 0, 1);
+        setConnectType(!getConnectType());
+    }
+
+    /**
      * gets the space number of the given index in spaceList.
      * @param  index the index of the space in spaceList
      * @return       the number of that space
@@ -258,7 +280,7 @@ public class Door {
         } catch (NullPointerException e) {
             return -1;
         }
-        return -1;
+        return 0;
     }
 
     /**
@@ -347,7 +369,6 @@ public class Door {
      */
     private String genDescription() {
         String toReturn = new String();
-        System.out.println(isArchway());
         if (isArchway()) {
             return getArchDescription();
         }

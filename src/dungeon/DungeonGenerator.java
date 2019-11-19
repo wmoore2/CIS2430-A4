@@ -134,13 +134,35 @@ public class DungeonGenerator {
      */
     private void createFinalDungeon() {
         ArrayList<Door> theList;
+        Door temp = new Door(false, 0);
         Passage thePassage;
         for (int i = 0; i < associationMap.size(); i++) {
             theList = associationMap.get(i);
             thePassage = new Passage(false);
             for (Door d : theList) {
+                temp = new Door(false, 0);
+                try {
+                    temp = (Door)d.clone();
+                } catch (CloneNotSupportedException e) {
+                    System.out.println("Clone not supported.");
+                }
+                temp.reverseDoor();
                 d.addSpace(thePassage);
-                thePassage.addDoorSection(d, 7);
+                temp.addSpace(thePassage);
+                if (temp.getDescription().toLowerCase().contains("archway")) {
+                    if (thePassage.getNumSections() == 0) {
+                        thePassage.addDoorSection(temp, 15);
+                    } else {
+                        thePassage.addDoorSection(temp, 7);
+                    }
+                } else {
+                    if (thePassage.getNumSections() == 0) {
+                        thePassage.addDoorSection(temp, 3);
+                    } else {
+                        temp.makeArchway();
+                        thePassage.addDoorSection(temp, 7);
+                    }
+                }
             }
             thePassageList.add(thePassage);
             // if (theList.size() > 2) {
