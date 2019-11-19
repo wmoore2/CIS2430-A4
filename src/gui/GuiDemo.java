@@ -52,7 +52,7 @@ public class GuiDemo<toReturn> extends Application {
         Node left = setLeftButtonPanel();  //separate method for the left section
         temp.setLeft(left);
         //TilePane room = createTilePanel();
-        GridPane room = new ChamberView(4,4);
+        GridPane room = new ChamberView(4,5);
         temp.setCenter(room);
         return temp;
     }
