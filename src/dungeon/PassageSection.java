@@ -266,11 +266,8 @@ public class PassageSection {
     private String genDoorDescription() {
         String toReturn = new String("");
         if (hasDoor()) {
-            if (!getDoor().isArchway()) {
-                toReturn = toReturn.concat(". " + getDoor().getDescription());
-            } else {
-                toReturn = toReturn.concat("\n");
-            }
+                toReturn = toReturn.concat(getDoor().getDescription());
+            
             toReturn = toReturn.concat("\t\tDoor is connected to: ");
             if (getDoor().getConnectType() == CHAMBER) {
                 toReturn = toReturn.concat("Chamber " + getDoor().getSpaceNumIndex(1));
@@ -288,6 +285,7 @@ public class PassageSection {
     public String getDescription() {
         String toReturn = new String();
         toReturn = passageDescription;
+        toReturn = toReturn.concat(".\n\t\t");
         toReturn = toReturn.concat(genDoorDescription());
         toReturn = toReturn.concat(genDescription());
         return toReturn;

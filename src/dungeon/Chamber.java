@@ -382,7 +382,7 @@ public class Chamber extends Space {
     private String getBasicDescription() {
         String toReturn = new String("");
 
-        toReturn = toReturn.concat("\n----------Chamber Info----------\n");
+        toReturn = toReturn.concat("----------Chamber Info----------\n");
         toReturn = toReturn.concat("Chamber Number: " + (getSpaceNum() + 1) + "\n");
         toReturn = toReturn.concat("Description: " + myContents.getDescription() + "\n");
         toReturn = toReturn.concat("Shape: " + mySize.getShape() + "\n");

@@ -1,23 +1,47 @@
 package gui;
 
 import java.util.ArrayList;
+import dungeon.DungeonGenerator;
 
 public class Controller {
+    private DungeonGenerator dungeon;
     private GuiDemo myGui;
 
-    public Controller(GuiDemo theGui){
+    public Controller(GuiDemo theGui) {
         myGui = theGui;
+        dungeon = new DungeonGenerator();
+        dungeon.buildDungeon();
     }
 
-    private String getNameList(){
+    private String getNameList() {
         return "0";
     }
 
-    public void reactToButton(){
+    public void reactToButton() {
         System.out.println("Thanks for clicking!");
     }
 
-    public String getNewDescription(){
+    /**
+     * reacts to the left bar getting clicked.
+     * @param index the index of the entry in the list to use for the update.
+     */
+    public void reactToLeftPanel(Integer index) {
+        System.out.println(dungeon.getSpaceDescription(index));
+    }
+
+    public String getNewLeftPanelDescription(Integer index) {
+        return dungeon.getSpaceDescription(index);
+    }
+
+    /**
+     * gets the strings for the left sidebar.
+     * @return the array of names
+     */
+    public ArrayList<String> getSpaceList() {
+        return dungeon.getSpaceNames();
+    }
+
+    public String getNewDescription() {
         //return "this would normally be a description pulled from the model of the Dungeon level.";
         return getNameList();
     }

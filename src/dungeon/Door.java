@@ -347,7 +347,7 @@ public class Door {
      */
     private String genDescription() {
         String toReturn = new String();
-
+        System.out.println(isArchway());
         if (isArchway()) {
             return getArchDescription();
         }

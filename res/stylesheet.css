@@ -1,6 +1,26 @@
+.region{
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #003459;
+}
+
+.text{
+    -fx-fill: #00171F;
+}
+
 .button{
     -fx-text-fill: rgb(49, 89, 23);
     -fx-border-color: rgb(49, 89, 23);
-    -fx-border-radius: 15;
-    -fx-padding: 3 6 6 6;
+    -fx-padding: 6 6 6 6;
+}
+
+VBox{
+    -fx-padding: 10;
+    -fx-border-style: solid inside;
+    -fx-wrap-text: true;
+    -fx-border-width: 2;
+    -fx-border-insets: 5;
+    -fx-border-radius: 5;
+    -fx-background-insets: 7;
+    -fx-background-color: #A0D3E8;
+    -fx-border-color: #003459;
 }

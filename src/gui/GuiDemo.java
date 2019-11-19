@@ -15,6 +15,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 
@@ -25,6 +26,7 @@ public class GuiDemo<toReturn> extends Application {
     one responsibility.
      */
     private Controller theController;
+    private Text mainText;      //main text for description in centre screen
     private BorderPane root;  //the root element of this GUI
     private Popup descriptionPane;
     private Stage primaryStage;  //The stage that is passed in on initialization
@@ -37,8 +39,10 @@ public class GuiDemo<toReturn> extends Application {
         primaryStage = assignedStage;
         /*Border Panes have  top, left, right, center and bottom sections */
         root = setUpRoot();
-        descriptionPane = createPopUp(200, 300, "Example Description of something");
-        Scene scene = new Scene(root, 300, 300);
+        descriptionPane = createPopUp(600, 600, "Example Description of something");
+        descriptionPane.setAutoHide(true);
+        Scene scene = new Scene(root, 1000, 600);
+        scene.getStylesheets().add("/res/stylesheet.css");
         primaryStage.setTitle("Hello GUI Demo");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -48,33 +52,53 @@ public class GuiDemo<toReturn> extends Application {
 //this is where methods that set up different buttons will go
     private BorderPane setUpRoot() {
         BorderPane temp = new BorderPane();
-        temp.setTop(new Label("The name or identifier of the thing below"));
+        temp.setTop(new Label("\tDungeon Elements"));
+        Node right = setRightPanel();
+        temp.setRight(right);
         Node left = setLeftButtonPanel();  //separate method for the left section
         temp.setLeft(left);
+        Node center = setMainPanel();
+        temp.setCenter(center);
         //TilePane room = createTilePanel();
-        GridPane room = new ChamberView(4,5);
-        temp.setCenter(room);
+        //GridPane room = new ChamberView(4,5);
+        //temp.setCenter(room);
         return temp;
+    }
+
+    private Node setRightPanel() {
+        VBox toReturn = new VBox();
+
+        return toReturn;
+    }
+
+    private Node setMainPanel() {
+        VBox toReturn = new VBox();
+        mainText = new Text();
+        mainText.setText("Select a Chamber or Passage and see it's description here!");
+        toReturn.getChildren().add(mainText);
+        return toReturn;
     }
 
     private Node setLeftButtonPanel(){
         VBox toReturn = new VBox();
-        toReturn.setStyle("-fx-padding: 10;" +
-                "-fx-border-style: solid inside;" +
-                "-fx-border-width: 2;" +
-                "-fx-border-insets: 5;" +
-                "-fx-border-radius: 5;" +
-                "-fx-border-color: purple;");
-        ListView<String> list = new ListView<String>();
-        ObservableList<String> theItems = FXCollections.observableArrayList("test1", "second entry", "third and so on");
-        list.setItems(theItems);
+        ListView list = new ListView();
+        
+
+        for (String s : theController.getSpaceList()) {
+            list.getItems().add(s);
+        }
+
         toReturn.getChildren().add(list);
 
-        Button testButton = new Button("Show Info");
+        toReturn.setAlignment(Pos.CENTER);
+        
+        Button testButton = new Button("Select");
+
         testButton.setOnAction(event -> {
             ObservableList selected = list.getSelectionModel().getSelectedIndices();
             for(Object o : selected){
                 System.out.println("o = " + o + " (" + o.getClass() + ")");
+                changeMainDescriptionText(theController.getNewLeftPanelDescription((Integer)o));
             }
         });
         toReturn.getChildren().add(testButton);
@@ -145,6 +169,14 @@ public class GuiDemo<toReturn> extends Application {
         btn.setText(text);
         btn.setStyle(format);
         return btn;
+    }
+
+    /**
+     * changes the main description window to the selected chamber or passage.
+     * @param text the description to set.
+     */
+    private void changeMainDescriptionText(String text) {
+        mainText.setText(text);
     }
 
     private void changeDescriptionText(String text) {

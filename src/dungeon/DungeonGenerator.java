@@ -43,6 +43,42 @@ public class DungeonGenerator {
     }
 
     /**
+     * gets all the spaces in the dungeon.
+     * @return the list of all spaces(passages and chambers)
+     */
+    public ArrayList<Space> getSpaces() {
+        ArrayList<Space> toReturn = new ArrayList<Space>();
+        toReturn.addAll(chamberList);
+        toReturn.addAll(thePassageList);
+        return toReturn;
+    }
+
+    public String getSpaceDescription(int index){
+        ArrayList<Space> temp = getSpaces();
+        if (index > temp.size()) {
+            return "out of bounds";
+        } else {
+            return temp.get(index).getDescription();
+        }
+    }
+
+    /**
+     * gets the list of all the names of all spaces.
+     * @return the arraylist of names of spaces.
+     */
+    public ArrayList<String> getSpaceNames() {
+        ArrayList<String> toReturn = new ArrayList<String>();
+        for (Space s : getSpaces()) {
+            if(s instanceof Chamber) {
+                toReturn.add("Chamber " + (s.getSpaceNum() + 1));
+            } else if (s instanceof Passage) { 
+                toReturn.add("Passage " + (s.getSpaceNum() + 1));
+            }
+        }
+        return toReturn;
+    }
+
+    /**
      * creates the map between the doors and the list of chambers associated with them.
      */
     public void createDoorMap() {
@@ -94,6 +130,7 @@ public class DungeonGenerator {
 
     /**
      * creates the dungeon given the values in the variables after other method calls.
+     * need to do a lot more here its not that good
      */
     private void createFinalDungeon() {
         ArrayList<Door> theList;
