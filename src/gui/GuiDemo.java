@@ -78,6 +78,10 @@ public class GuiDemo<toReturn> extends Application {
         toReturn.setAlignment(Pos.CENTER);
         toReturn.getChildren().add(doors);
 
+        doors.setOnMouseClicked(event -> {
+            System.out.println(doors.getValue());
+        });
+
         return toReturn;
     }
 
