@@ -53,6 +53,30 @@ public class DungeonGenerator {
         return toReturn;
     }
 
+    /**
+     * gets the list of doors from the given space in string format.
+     * @param  index the index of the space to get
+     * @return       the arraylist of doors in string form
+     */
+    public ArrayList<String> getDoorsFromSpace(Integer index) {
+        ArrayList<Space> temp = getSpaces();
+        ArrayList<String> toReturn = new ArrayList<String>();
+        if (index > temp.size()) {
+            toReturn.add("out of bounds");
+            return toReturn;
+        } else {
+            for (int i = 0; i < temp.get(index).getDoors().size(); i++) {
+                toReturn.add("Door " + (i + 1));
+            }
+        }
+        return toReturn;
+    }
+
+    /**
+     * gets the description of the given space.
+     * @param  index the index to get the description of
+     * @return       the string
+     */
     public String getSpaceDescription(int index){
         ArrayList<Space> temp = getSpaces();
         if (index > temp.size()) {

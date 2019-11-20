@@ -29,6 +29,15 @@ public class Controller {
         System.out.println(dungeon.getSpaceDescription(index));
     }
 
+    /**
+     * gets the new entries for the drop down menu of doors.
+     * @param  index the space to get the doors from
+     * @return       the list of doors
+     */
+    public ArrayList<String> getNewChoiceBoxEntries(Integer index) {
+        return dungeon.getDoorsFromSpace(index);
+    }
+
     public String getNewLeftPanelDescription(Integer index) {
         return dungeon.getSpaceDescription(index);
     }

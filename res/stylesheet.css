@@ -1,16 +1,52 @@
+
 .region{
-    -fx-background-color: #FFFFFF;
-    -fx-border-color: #003459;
+    -fx-background-color: #404040;
+    -fx-border-color: #F28157;
 }
 
 .text{
-    -fx-fill: #00171F;
+    -fx-fill: #BFBFBF;
+}
+
+Text{
+    -fx-fill: #BFBFBF;
+    -fx-font-size: 15px;
 }
 
 .button{
-    -fx-text-fill: rgb(49, 89, 23);
+    -fx-text-fill: #BFBFBF;
     -fx-border-color: rgb(49, 89, 23);
     -fx-padding: 6 6 6 6;
+}
+
+/* Color Theme Swatches in Hex */
+.HVC-darkTheme-1-hex { color: #F28157; }
+.HVC-darkTheme-2-hex { color: #BFBFBF; }
+.HVC-darkTheme-3-hex { color: #737373; }
+.HVC-darkTheme-4-hex { color: #404040; }
+.HVC-darkTheme-5-hex { color: #262626; }
+
+.list-view {
+    -fx-padding: 2;
+    -fx-border-style: solid inside;
+    -fx-wrap-text: true;
+    -fx-border-width: 2;
+    -fx-border-insets: 5;
+    -fx-border-radius: 5;
+    -fx-background-insets: 7;
+    -fx-border-color: #404040;
+    -fx-background-color: #F28157;
+    -fx-font-size: 14px;
+}
+
+.list-view .list-cell:even {
+    -fx-background-color: #262626;
+    -fx-text-fill: #404040;
+}
+
+.list-view .list-cell:odd {
+    -fx-background-color: #404040;
+    -fx-fill: #122010;
 }
 
 VBox{
@@ -21,6 +57,6 @@ VBox{
     -fx-border-insets: 5;
     -fx-border-radius: 5;
     -fx-background-insets: 7;
-    -fx-background-color: #A0D3E8;
-    -fx-border-color: #003459;
+    -fx-background-color: #404040;
+    -fx-border-color: #F28157;
 }
