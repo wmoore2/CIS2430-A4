@@ -17,8 +17,10 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
+import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 
 
@@ -28,8 +30,9 @@ public class GuiDemo<toReturn> extends Application {
     one responsibility.
      */
     private Controller theController;
-    private Text mainText;      //main text for description in centre screen
+    private TextArea mainText;      //main text for description in centre screen
     private ChoiceBox doors;
+    private ListView list;
     private BorderPane root;  //the root element of this GUI
     private Popup descriptionPane;
     private Stage primaryStage;  //The stage that is passed in on initialization
@@ -42,8 +45,6 @@ public class GuiDemo<toReturn> extends Application {
         primaryStage = assignedStage;
         /*Border Panes have  top, left, right, center and bottom sections */
         root = setUpRoot();
-        descriptionPane = createPopUp(600, 600, "Example Description of something");
-        descriptionPane.setAutoHide(true);
         Scene scene = new Scene(root, 1000, 600);
         scene.getStylesheets().add("/res/stylesheet.css");
         primaryStage.setTitle("Hello GUI Demo");
@@ -63,9 +64,6 @@ public class GuiDemo<toReturn> extends Application {
         temp.setLeft(left);
         Node center = setMainPanel();
         temp.setCenter(center);
-        //TilePane room = createTilePanel();
-        //GridPane room = new ChamberView(4,5);
-        //temp.setCenter(room);
         return temp;
     }
 
@@ -75,11 +73,21 @@ public class GuiDemo<toReturn> extends Application {
 
         doors.getItems().add("Select");
         doors.setValue("Select");
+        descriptionPane = createPopUp(600, 600, "Example Description of something");
+        descriptionPane.setAutoHide(true);
         toReturn.setAlignment(Pos.CENTER);
         toReturn.getChildren().add(doors);
 
-        doors.setOnMouseClicked(event -> {
-            System.out.println(doors.getValue());
+        doors.getSelectionModel().selectedIndexProperty().addListener(event -> {
+            System.out.println(doors.getSelectionModel().getSelectedIndex() - 1);
+            if (doors.getSelectionModel().getSelectedIndex() >= 1) {
+            changeDescriptionText(theController.getNewPopUpDescription((list.getSelectionModel().getSelectedIndex()), doors.getSelectionModel().getSelectedIndex() - 1));
+            descriptionPane.show(primaryStage);
+            }
+        });
+
+        descriptionPane.setOnAutoHide(event -> {
+            doors.setValue("Select");
         });
 
         return toReturn;
@@ -87,7 +95,11 @@ public class GuiDemo<toReturn> extends Application {
 
     private Node setMainPanel() {
         VBox toReturn = new VBox();
-        mainText = new Text();
+        mainText = new TextArea();
+        mainText.setPrefHeight(1000);
+        mainText.setPrefWidth(1000);
+        mainText.setEditable(false);
+        mainText.setWrapText(true);
         mainText.setText("Select a Chamber or Passage and see it's description here!");
         toReturn.getChildren().add(mainText);
         return toReturn;
@@ -95,9 +107,8 @@ public class GuiDemo<toReturn> extends Application {
 
     private Node setLeftButtonPanel(){
         VBox toReturn = new VBox();
-        ListView list = new ListView();
+        list = new ListView();
         
-
         for (String s : theController.getSpaceList()) {
             list.getItems().add(s);
         }
@@ -109,9 +120,7 @@ public class GuiDemo<toReturn> extends Application {
         Button testButton = new Button("Edit");
 
         list.setOnMouseClicked(event -> {
-            ObservableList selected = list.getSelectionModel().getSelectedIndices();
-            for(Object o : selected){
-                System.out.println("o = " + o + " (" + o.getClass() + ")");
+            for(Object o : list.getSelectionModel().getSelectedIndices()){
                 changeMainDescriptionText(theController.getNewLeftPanelDescription((Integer)o));
                 updateDoorList((Integer)o);
             }

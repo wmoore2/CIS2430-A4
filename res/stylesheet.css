@@ -4,12 +4,25 @@
     -fx-border-color: #F28157;
 }
 
+.control{
+}
+
 .text{
     -fx-fill: #BFBFBF;
 }
 
-Text{
-    -fx-fill: #BFBFBF;
+.text-area .content{
+    -fx-border-style: solid inside;
+    -fx-wrap-text: true;
+    -fx-border-color: #F28157;
+    -fx-background-color: #404040;
+    -fx-padding: 2;
+}
+
+.text-area{
+    -fx-focus-color: #F28157;
+    -fx-faint-focus-color: transparent;
+    -fx-text-fill: #BFBFBF;
     -fx-font-size: 15px;
 }
 

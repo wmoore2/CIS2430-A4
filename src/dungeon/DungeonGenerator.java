@@ -54,6 +54,25 @@ public class DungeonGenerator {
     }
 
     /**
+     * 
+     * gets the description of a given door from a given space.
+     * @param  spaceIndex the index of the spaces
+     * @param  doorIndex  the index of the door
+     * @return the string containing the description.
+     */
+    public String getDoorDescriptionFromSpace(Integer spaceIndex, Integer doorIndex) {
+        Door temp = (Door)getSpaces().get(spaceIndex).getDoors().get(doorIndex);
+        String toReturn = "Door " + (doorIndex + 1) + "\n";
+        toReturn = toReturn.concat(temp.getDescription());
+        if (temp.getSpaces().get(1) instanceof Chamber) {
+            toReturn = toReturn.concat("Connected to Chamber " + temp.getSpaceNumIndex(1));
+        } else if (temp.getSpaces().get(1) instanceof Passage) {
+            toReturn = toReturn.concat("Connected to Passage " + temp.getSpaceNumIndex(1));
+        }
+        return toReturn;
+    }
+
+    /**
      * gets the list of doors from the given space in string format.
      * @param  index the index of the space to get
      * @return       the arraylist of doors in string form
