@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-public class Passage extends Space {
+public class Passage extends Space implements java.io.Serializable{
     /**
      * the roll for a chamber.
      */

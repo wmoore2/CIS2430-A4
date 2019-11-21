@@ -12,7 +12,7 @@ import dnd.exceptions.UnusualShapeException;
 import dnd.exceptions.NotProtectedException;
 import java.util.ArrayList;
 
-public class Chamber extends Space {
+public class Chamber extends Space implements java.io.Serializable{
     /**
      * roll for nothing.
      */

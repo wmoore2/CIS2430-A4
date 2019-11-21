@@ -11,9 +11,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -29,6 +32,7 @@ public class GuiDemo<toReturn> extends Application {
     so that you can break the processing up into smaller methods that have
     one responsibility.
      */
+    private MenuBar topBar;
     private Controller theController;
     private TextArea mainText;      //main text for description in centre screen
     private ChoiceBox doors;
@@ -57,7 +61,8 @@ public class GuiDemo<toReturn> extends Application {
     private BorderPane setUpRoot() {
         BorderPane temp = new BorderPane();
         temp.styleProperty().set("-fx-background-color: #262626");
-        temp.setTop(new Label("\tDungeon Elements"));
+        Node top = setTopPanel();
+        temp.setTop(top);
         Node right = setRightPanel();
         temp.setRight(right);
         Node left = setLeftButtonPanel();  //separate method for the left section
@@ -67,12 +72,29 @@ public class GuiDemo<toReturn> extends Application {
         return temp;
     }
 
+    /**
+     * sets the top menu bar with the file entry.
+     * @return the node
+     */
+    private Node setTopPanel() {
+        topBar = new MenuBar();
+        Menu optionOne = new Menu("File");
+        MenuItem saveFile = new MenuItem("Save File");
+        MenuItem loadFile = new MenuItem("Load File");
+        optionOne.getItems().add(saveFile);
+        optionOne.getItems().add(loadFile);
+
+
+        topBar.getMenus().add(optionOne);
+        return topBar;
+    }
+
     private Node setRightPanel() {
         VBox toReturn = new VBox();
         doors = new ChoiceBox();
 
-        doors.getItems().add("Select");
-        doors.setValue("Select");
+        doors.getItems().add("Select Door");
+        doors.setValue("Select Door");
         descriptionPane = createPopUp(600, 600, "Example Description of something");
         descriptionPane.setAutoHide(true);
         toReturn.setAlignment(Pos.CENTER);
@@ -87,7 +109,7 @@ public class GuiDemo<toReturn> extends Application {
         });
 
         descriptionPane.setOnAutoHide(event -> {
-            doors.setValue("Select");
+            doors.setValue("Select Door");
         });
 
         return toReturn;
@@ -108,7 +130,7 @@ public class GuiDemo<toReturn> extends Application {
     private Node setLeftButtonPanel(){
         VBox toReturn = new VBox();
         list = new ListView();
-        
+        list.setPrefHeight(1000);
         for (String s : theController.getSpaceList()) {
             list.getItems().add(s);
         }
@@ -134,7 +156,7 @@ public class GuiDemo<toReturn> extends Application {
      * @param num the number of the space to update
      */
     private void updateDoorList(Integer num) {
-        doors.setValue("Select");
+        doors.setValue("Select Door");
         doors.getItems().remove(1, doors.getItems().size());
         doors.getItems().addAll(theController.getNewChoiceBoxEntries(num));
     }
@@ -147,6 +169,7 @@ public class GuiDemo<toReturn> extends Application {
         popup.setX(x);
         popup.setY(y);
         TextArea textA = new TextArea(text);
+        textA.setEditable(false);
         popup.getContent().addAll(textA);
         textA.setStyle(" -fx-background-color: white;");
         textA.setMinWidth(80);

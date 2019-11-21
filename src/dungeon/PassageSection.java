@@ -4,7 +4,7 @@ import dnd.models.Monster;
 import java.util.HashMap;
 import dnd.die.D20;
 
-public class PassageSection {
+public class PassageSection implements java.io.Serializable{
     /**
      * Hashmap containing teh table for passage section rolls.
      */

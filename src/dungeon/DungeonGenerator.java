@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import dnd.die.D20;
 
-public class DungeonGenerator {
+public class DungeonGenerator implements java.io.Serializable{
     /**
      * Stores the chambers being used in the dungeon.
      */

@@ -2,7 +2,7 @@ package dungeon;
 
 import java.util.ArrayList;
 
-public abstract class Space {
+public abstract class Space implements java.io.Serializable{
     /**
     *   the door the space is generated off of.
     **/

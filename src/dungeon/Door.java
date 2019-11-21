@@ -7,7 +7,7 @@ import dnd.die.D10;
 import dnd.die.D6;
 import java.util.ArrayList;
 
-public class Door implements Cloneable{
+public class Door implements Cloneable, java.io.Serializable{
     /**
      * constant for archway.
      */
