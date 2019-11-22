@@ -54,6 +54,16 @@ public class DungeonGenerator implements java.io.Serializable{
     }
 
     /**
+     * resets the space numbering for when a new dungeon needs to be generated.
+     */
+    public void resetSpaces() {
+        for (Space s : getSpaces()) {
+            s.reset();
+        }
+        initDungeon();
+    }
+
+    /**
      * 
      * gets the description of a given door from a given space.
      * @param  spaceIndex the index of the spaces

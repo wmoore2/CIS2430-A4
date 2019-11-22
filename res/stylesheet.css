@@ -1,7 +1,15 @@
 
 .region{
-    -fx-background-color: #404040;
+    -fx-background-color: #262626;
     -fx-border-color: #FF6961;
+}
+
+.label{
+    -fx-font-size: 18px;
+}
+
+.menu-bar .text{
+    -fx-font-size: 14px;
 }
 
 .menu-bar{
@@ -38,6 +46,7 @@
 
 .menu:hover{
     -fx-background-color: #FF6961;
+    -fx-cursor: hand;
 }
 
 .menu:hover .text{
@@ -76,14 +85,19 @@
     -fx-border-width: 2;
     -fx-faint-focus-color: transparent;
     -fx-text-fill: #BFBFBF;
-    -fx-font-size: 15px;
+    -fx-font-size: 14px;
 }
 
 .button .text{
     -fx-fill: #262626;
 }
 
+.button:hover {
+    -fx-cursor: hand;
+}
+
 .button{
+    -fx-font-size: 14px;
     -fx-background-color: #FF6961;
     -fx-border-color: #FF6961;
     -fx-padding: 6 6 6 6;
@@ -111,6 +125,7 @@
 }
 
 .choice-box .text{
+    -fx-font-size: 14px;
     -fx-fill: #262626;
 }
 
@@ -120,6 +135,10 @@
 
 .choice-box .context-menu .text{
     -fx-fill: #BFBFBF;
+}
+
+.choice-box:hover{
+    -fx-cursor:hand;
 }
 
 .choice-box .context-menu .menu-item:focused .text{
@@ -146,6 +165,10 @@
 .list-view .list-cell:selected {
     -fx-background-color: #FF6961;
     -fx-fill-fill: #262626;
+}
+
+.list-view:hover{
+    -fx-cursor: hand;
 }
 
 .list-cell:even {

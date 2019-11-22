@@ -2,10 +2,12 @@ package gui;
 
 import javafx.application.Application;
 import javafx.collections.ObservableList;
+import javafx.collections.*;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.Scene;
@@ -23,6 +25,8 @@ import javafx.scene.layout.*;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
+import java.io.File;
+import javafx.stage.FileChooser;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 
@@ -33,13 +37,19 @@ public class GuiDemo<toReturn> extends Application {
     one responsibility.
      */
     private MenuBar topBar;
+    private FileChooser fileDialog;
     private Controller theController;
     private TextArea mainText;      //main text for description in centre screen
     private ChoiceBox doors;
     private ListView list;
     private BorderPane root;  //the root element of this GUI
+    private BorderPane editChoicePane;
     private Popup descriptionPane;
     private Stage primaryStage;  //The stage that is passed in on initialization
+    private Stage editChoiceStage;
+    private ListButtonPane monsterEditPane;
+    private ListButtonPane monsterAddRemovePane;
+    private ListButtonPane treasureAddRemovePane;
 
     /*a call to start replaces a call to the constructor for a JavaFX GUI*/
     @Override
@@ -47,15 +57,141 @@ public class GuiDemo<toReturn> extends Application {
         /*Initializing instance variables */
         theController = new Controller(this);
         primaryStage = assignedStage;
+        createMonsterEditPane();
+        createMonsterAddRemovePane();
+        createTreasureAddRemovePane();
+        createEditChoiceStage();
+
         /*Border Panes have  top, left, right, center and bottom sections */
         root = setUpRoot();
         Scene scene = new Scene(root, 1000, 600);
         scene.getStylesheets().add("/res/stylesheet.css");
-        primaryStage.setTitle("Hello GUI Demo");
+        primaryStage.setTitle("Dungeon Editor");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    private void createMonsterEditPane() {
+        monsterEditPane = new ListButtonPane("Add/Edit Monster", 600, 300);
+        updateMonsterEditPaneList();
+        monsterEditPane.getLeftPanelLabel().setText("Monsters from Database");
+        monsterEditPane.getRightPanelTopButton().setText("Add Selected");
+        monsterEditPane.getRightPanelBottomButton().setText("Edit Selected");
+        setMonsterEditPaneButtonActions();
+    }
+
+    private void updateMonsterEditPaneList() {
+        monsterEditPane.getLeftPanelList().getItems().clear();
+        for (String s : theController.getMonsterList()) {
+            monsterEditPane.getLeftPanelList().getItems().add(s);
+        }
+        if (mainText != null) {
+            updateMainDescriptionText();
+        }
+    }
+
+    private void setMonsterEditPaneButtonActions() {
+        monsterEditPane.getRightPanelTopButton().setOnAction(event -> {
+            System.out.println("not in yet");
+            if (monsterEditPane.getLeftPanelList().getSelectionModel().getSelectedIndex() != -1) {
+                theController.setMonsterInSpace((String)monsterEditPane.getLeftPanelList().getItems().get(monsterEditPane.getLeftPanelList().getSelectionModel().getSelectedIndex()), (Integer)list.getSelectionModel().getSelectedIndex());
+            }
+        });
+
+        monsterEditPane.getRightPanelBottomButton().setOnAction(event -> {
+            System.out.println("not in yet");
+        });
+    }
+
+    private void createMonsterAddRemovePane() {
+        monsterAddRemovePane = new ListButtonPane("Add/Remove Monster", 600, 300);
+        updateMonsterAddRemovePaneList();
+        monsterAddRemovePane.getLeftPanelLabel().setText("Monsters");
+        monsterAddRemovePane.getRightPanelTopButton().setText("Add/Edit New Monster");
+        monsterAddRemovePane.getRightPanelBottomButton().setText("Remove Selected");
+        setMonsterAddRemovePaneButtonActions();
+    }
+
+    private void updateMonsterAddRemovePaneList() {
+        monsterAddRemovePane.getLeftPanelList().getItems().clear();
+        for (String s : theController.getMonsterAddRemoveList()) {
+            monsterAddRemovePane.getLeftPanelList().getItems().add(s);
+        }
+        if (mainText != null) {
+            updateMainDescriptionText();
+        }
+    }
+
+    private void setMonsterAddRemovePaneButtonActions() {
+        monsterAddRemovePane.getRightPanelTopButton().setOnAction(event -> {
+            monsterEditPane.getStage().show();
+        });
+
+        monsterAddRemovePane.getRightPanelBottomButton().setOnAction(event -> {
+            System.out.println("not in yet");
+            if (monsterAddRemovePane.getLeftPanelList().getSelectionModel().getSelectedIndex() != -1) {
+                
+            }
+        });
+    }
+
+    private void createTreasureAddRemovePane() {
+        treasureAddRemovePane = new ListButtonPane("Add/Remove Treasure", 600, 300);
+        updateTreasureAddRemovePaneList();
+        treasureAddRemovePane.getLeftPanelLabel().setText("Treasure");
+        treasureAddRemovePane.getRightPanelTopButton().setText("Add Treasure");
+        treasureAddRemovePane.getRightPanelBottomButton().setText("Remove Selected");
+        setTreasureAddRemovePaneButtonActions();
+    }
+
+    private void updateTreasureAddRemovePaneList() {
 
     }
+
+    private void setTreasureAddRemovePaneButtonActions() {
+
+    }
+
+    private void createEditChoiceStage() {
+        editChoiceStage = new Stage();
+        createEditChoicePane();
+        Scene editChoiceScene = new Scene(editChoicePane, 400, 50);
+        editChoiceScene.getStylesheets().add("/res/stylesheet.css");
+        editChoiceStage.setTitle("Add Treasure or Monster");
+        editChoiceStage.setScene(editChoiceScene);
+    }
+
+    private BorderPane createEditChoicePane() {
+        editChoicePane = new BorderPane();
+
+        editChoicePane.styleProperty().set("-fx-background-color: #262626");
+        editChoicePane.setCenter(createEditSceneChoices());
+
+        return editChoicePane;
+    }
+
+    private Node createEditSceneChoices() {
+        HBox toReturn = new HBox();
+        Button monsterButton = new Button("Add/Remove Monster");
+        Button treasureButton = new Button("Add/Remove Treasure");
+        toReturn.setAlignment(Pos.CENTER);
+        toReturn.setSpacing(30);
+        monsterButton.setOnAction(event ->{
+            monsterAddRemovePane.getStage().show();
+            editChoiceStage.hide();
+        });
+
+        treasureButton.setOnAction(event ->{
+            treasureAddRemovePane.getStage().show();
+            editChoiceStage.hide();
+        });
+
+        toReturn.getChildren().add(monsterButton);
+        toReturn.getChildren().add(treasureButton);
+
+        return toReturn;
+    }
+
 //this method sets up the main sort of stage
 //this is where methods that set up different buttons will go
     private BorderPane setUpRoot() {
@@ -73,81 +209,202 @@ public class GuiDemo<toReturn> extends Application {
     }
 
     /**
+     * creates the menu item on the menu bar for saving files.
+     * @return the menu item created.
+     */
+    private MenuItem createTopBarSaveOption() {
+        MenuItem saveFile = new MenuItem("Save File");
+        saveFile.setOnAction(event -> {
+            theController.saveLevel(fileDialog.showSaveDialog(primaryStage));
+        });
+        return saveFile;
+    }
+
+    /**
+     * creates the menu item on the menu bar for loading files.
+     * @return the menu item created
+     */
+    private MenuItem createTopBarLoadOption() {
+        MenuItem loadFile = new MenuItem("Load File");
+        loadFile.setOnAction(event -> {
+            theController.loadLevel(fileDialog.showOpenDialog(primaryStage));
+            updateList();
+        });
+        return loadFile;
+    }
+
+    /**
      * sets the top menu bar with the file entry.
      * @return the node
      */
     private Node setTopPanel() {
         topBar = new MenuBar();
+        fileDialog = new FileChooser();
         Menu optionOne = new Menu("File");
-        MenuItem saveFile = new MenuItem("Save File");
-        MenuItem loadFile = new MenuItem("Load File");
-        optionOne.getItems().add(saveFile);
-        optionOne.getItems().add(loadFile);
 
+        optionOne.getItems().add(createTopBarSaveOption());
+        optionOne.getItems().add(createTopBarLoadOption());
 
         topBar.getMenus().add(optionOne);
         return topBar;
     }
 
-    private Node setRightPanel() {
-        VBox toReturn = new VBox();
+    /**
+     * creates the choice box used for selecting doors in the right panel.
+     * @return the choicebox created.
+     */
+    private ChoiceBox createRightPanelDoorChoiceBox() {
         doors = new ChoiceBox();
-
         doors.getItems().add("Select Door");
-        doors.setValue("Select Door");
-        descriptionPane = createPopUp(600, 600, "Example Description of something");
-        descriptionPane.setAutoHide(true);
-        toReturn.setAlignment(Pos.CENTER);
-        toReturn.getChildren().add(doors);
+        setDefaultRightPanelChoiceBox();
 
         doors.getSelectionModel().selectedIndexProperty().addListener(event -> {
             System.out.println(doors.getSelectionModel().getSelectedIndex() - 1);
             if (doors.getSelectionModel().getSelectedIndex() >= 1) {
-            changeDescriptionText(theController.getNewPopUpDescription((list.getSelectionModel().getSelectedIndex()), doors.getSelectionModel().getSelectedIndex() - 1));
-            descriptionPane.show(primaryStage);
+                changeDescriptionText(theController.getNewPopUpDescription((list.getSelectionModel().getSelectedIndex()), doors.getSelectionModel().getSelectedIndex() - 1));
+                descriptionPane.show(primaryStage);
             }
         });
+        return doors;
+    }
 
+    /**
+     * creates the popup for the right panel.
+     * @return the popup created
+     */
+    private Popup createRightPanelPopup() {
+        descriptionPane = createPopUp(600, 600, "sample text");
+        descriptionPane.setAutoHide(true);
         descriptionPane.setOnAutoHide(event -> {
-            doors.setValue("Select Door");
+            setDefaultRightPanelChoiceBox();
         });
+        return descriptionPane;
+    }
+
+    /**
+     * handles the creation of everything to do with the right panel.
+     * @return the node containing the right panel;
+     */
+    private Node setRightPanel() {
+        VBox toReturn = new VBox();
+
+        toReturn.setAlignment(Pos.CENTER);
+        createRightPanelPopup();
+        toReturn.getChildren().add(createRightPanelDoorChoiceBox());
 
         return toReturn;
     }
 
+    /**
+     * simple method for setting the default value in the choice box for doors.
+     */
+    private void setDefaultRightPanelChoiceBox() {
+        doors.setValue("Select Door");
+    }
+
+    /**
+     * creates the node that will become the main panel.
+     * @return the node created by the method
+     */
     private Node setMainPanel() {
         VBox toReturn = new VBox();
         mainText = new TextArea();
-        mainText.setPrefHeight(1000);
-        mainText.setPrefWidth(1000);
-        mainText.setEditable(false);
-        mainText.setWrapText(true);
-        mainText.setText("Select a Chamber or Passage and see it's description here!");
+        initMainText();
         toReturn.getChildren().add(mainText);
         return toReturn;
     }
 
-    private Node setLeftButtonPanel(){
-        VBox toReturn = new VBox();
-        list = new ListView();
-        list.setPrefHeight(1000);
+    /**
+     * initializes the styling for the main text window.
+     */
+    private void initMainText() {
+        mainText.setPrefHeight(1000);
+        mainText.setPrefWidth(1000);
+        mainText.setEditable(false);
+        mainText.setWrapText(true);
+        setDefaultMainText();
+    }
+
+    /**
+     * updates the list whenever a new dungeon is loaded in.
+     */
+    private void updateList() {
+        list.getItems().clear();
         for (String s : theController.getSpaceList()) {
             list.getItems().add(s);
         }
+        if (mainText != null) {
+            setDefaultMainText();
+        }
+    }
 
-        toReturn.getChildren().add(list);
+    /**
+     * sets the default main text.
+     */
+    private void setDefaultMainText() {
+        mainText.setText("Select a Chamber or Passage and see it's description here!");
+    }
 
-        toReturn.setAlignment(Pos.CENTER);
-        
-        Button testButton = new Button("Edit");
-
+    /**
+     * creates the list of spaces in the left panel.
+     * @return the list of spaces to be added to the scene.
+     */
+    private ListView createLeftPanelList() {
+        list = new ListView();
+        updateList();
+        list.setPrefHeight(1000);
         list.setOnMouseClicked(event -> {
-            for(Object o : list.getSelectionModel().getSelectedIndices()){
-                changeMainDescriptionText(theController.getNewLeftPanelDescription((Integer)o));
-                updateDoorList((Integer)o);
+            updateMainDescriptionText();
+        });
+        return list;
+    }
+
+    /**
+     * updates the main description text.
+     */
+    private void updateMainDescriptionText() {
+        for(Object o : list.getSelectionModel().getSelectedIndices()){
+            changeMainDescriptionText(theController.getNewLeftPanelDescription((Integer)o));
+            updateDoorList((Integer)o);
+        }
+
+    }
+
+    /**
+     * creates the edit button in the left panel.
+     * @return the button created by the method
+     */
+    private Button createLeftPanelEditButton() {
+        Button editButton = new Button("Edit Selected Space");
+        editButton.setOnAction(event -> {
+            if (list.getSelectionModel().getSelectedIndex() != -1) {
+                editChoiceStage.show();
             }
         });
-        toReturn.getChildren().add(testButton);
+        return editButton;
+    }
+
+    /**
+     * creates the label for the left panel.
+     * @return the label created
+     */
+    private Label createLeftPanelLabel() {
+        Label toReturn = new Label("Spaces");
+        return toReturn;
+    }
+
+    /**
+     * generates the entirety of the left panel.
+     * @return the node containing the vbox in the left panel.
+     */
+    private Node setLeftButtonPanel(){
+        VBox toReturn = new VBox();
+        toReturn.setAlignment(Pos.CENTER);
+
+        toReturn.getChildren().add(createLeftPanelLabel());
+        toReturn.getChildren().add(createLeftPanelList());
+        toReturn.getChildren().add(createLeftPanelEditButton());
+
         return toReturn;
     }
 
@@ -156,7 +413,7 @@ public class GuiDemo<toReturn> extends Application {
      * @param num the number of the space to update
      */
     private void updateDoorList(Integer num) {
-        doors.setValue("Select Door");
+        setDefaultRightPanelChoiceBox();
         doors.getItems().remove(1, doors.getItems().size());
         doors.getItems().addAll(theController.getNewChoiceBoxEntries(num));
     }
@@ -195,9 +452,13 @@ public class GuiDemo<toReturn> extends Application {
         mainText.setText(text);
     }
 
+    /**
+     * changes the descriptionText of the popup descriptionpane.
+     * @param text the text to change the description to.
+     */
     private void changeDescriptionText(String text) {
-        ObservableList<Node> list = descriptionPane.getContent();
-        for (Node t : list) {
+        ObservableList<Node> theList = descriptionPane.getContent();
+        for (Node t : theList) {
             if (t instanceof TextArea) {
                 TextArea temp = (TextArea) t;
                 temp.setText(text);
@@ -207,6 +468,10 @@ public class GuiDemo<toReturn> extends Application {
 
     }
 
+    /**
+     * the main method.
+     * @param args just some args
+     */
     public static void main(String[] args) {
         launch(args);
     }

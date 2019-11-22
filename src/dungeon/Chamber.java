@@ -384,7 +384,6 @@ public class Chamber extends Space implements java.io.Serializable{
 
         toReturn = toReturn.concat("----------Chamber Info----------\n");
         toReturn = toReturn.concat("Chamber Number: " + (getSpaceNum() + 1) + "\n");
-        toReturn = toReturn.concat("Description: " + myContents.getDescription() + "\n");
         toReturn = toReturn.concat("Shape: " + mySize.getShape() + "\n");
 
         return toReturn;
@@ -486,7 +485,9 @@ public class Chamber extends Space implements java.io.Serializable{
         String toReturn = new String("");
         switch (getRoll()) {
             case NOTHING_ROLL:
-                //nothing
+                if (!getMonsters().isEmpty()) {
+                    toReturn = toReturn.concat("Contents:" + getMonsterDesc(0) + "\n");
+                }
                 break;
             case MONSTER_ROLL:
                 toReturn = toReturn.concat("Contents:" + getMonsterDesc(0) + "\n");
@@ -496,12 +497,21 @@ public class Chamber extends Space implements java.io.Serializable{
                 break;
             case SPECIAL_ROLL:
                 toReturn = toReturn.concat("Contents:" + getStairsDesc(0) + "\n");
+                if (!getMonsters().isEmpty()) {
+                    toReturn = toReturn.concat(getMonsterDesc(0) + "\n");
+                }
                 break;
             case TRAP_ROLL:
                 toReturn = toReturn.concat("Contents:" + getTrapDesc(0) + "\n");
+                if (!getMonsters().isEmpty()) {
+                    toReturn = toReturn.concat(getMonsterDesc(0) + "\n");
+                }
                 break;
             case TREASURE_ROLL:
                 toReturn = toReturn.concat("Contents:" + getTreasureDesc(0) + "\n");
+                if (!getMonsters().isEmpty()) {
+                    toReturn = toReturn.concat(getMonsterDesc(0) + "\n");
+                }
                 break;
             default:
                 break;
