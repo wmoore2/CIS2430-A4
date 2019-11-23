@@ -24,11 +24,13 @@ import javafx.scene.layout.*;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import java.util.ArrayList;
 
 public class ListButtonPane{
 
     private ListView leftPanelList;
     private Label leftPanelLabel;
+    private Label emptyLabel;
     private VBox leftPanel;
     private VBox rightPanel;
     private Button topButton;
@@ -59,7 +61,13 @@ public class ListButtonPane{
         leftPanelLabel = createLeftPanelLabel();
         topButton = createRightPanelTopButton();
         bottomButton = createRightPanelBottomButton();
+        emptyLabel = createEmptyLabel();
         thePane = setUpRoot();
+    }
+
+    private Label createEmptyLabel() {
+        emptyLabel = new Label("The List is Currently Empty");
+        return emptyLabel;
     }
 
     /**
@@ -138,6 +146,53 @@ public class ListButtonPane{
         leftPanel.getChildren().add(leftPanelLabel);
         leftPanel.getChildren().add(leftPanelList);
         return leftPanel;
+    }
+
+    /**
+     * returns a boolean describing wether or not a selection is made on the list.
+     * @return [description]
+     */
+    public boolean listHasSelection() {
+        return (this.getSelectedIndex() != -1);
+    }
+
+    /**
+     * sets the list view items to be the give arraylist of strings.
+     * @param theList the new list of strings to set in the listview.
+     */
+    public void setList(ArrayList<String> theList) {
+        getLeftPanelList().getItems().clear();
+        for (String s : theList) {
+            getLeftPanelList().getItems().add(s);
+        }
+
+        if (theList.size() == 0) {
+            getLeftPanel().getChildren().clear();
+            getLeftPanel().getChildren().add(emptyLabel);
+            getLeftPanel().getChildren().add(leftPanelList);
+        } else {
+            if (!getLeftPanel().getChildren().contains(leftPanelLabel)) {
+                getLeftPanel().getChildren().clear();
+                getLeftPanel().getChildren().add(leftPanelLabel);
+                getLeftPanel().getChildren().add(leftPanelList);
+            }
+        }
+    }
+
+    /**
+     * gets the index of the selected list entry
+     * @return the index
+     */
+    public Integer getSelectedIndex() {
+        return (Integer)leftPanelList.getSelectionModel().getSelectedIndex();
+    }
+
+    /**
+     * gets the selected entry of the list.
+     * @return the string
+     */
+    public String getSelectedEntry() {
+        return (String)getLeftPanelList().getItems().get((Integer)getSelectedIndex());
     }
 
     /**

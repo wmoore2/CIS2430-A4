@@ -1,6 +1,8 @@
 package dungeon;
 
 import dnd.models.Monster;
+import dnd.models.Treasure;
+import dnd.exceptions.NotProtectedException;
 import java.util.HashMap;
 import dnd.die.D20;
 
@@ -25,6 +27,7 @@ public class PassageSection implements java.io.Serializable{
     *   the monster in the passage.
     **/
     private Monster passageMonster;
+    private Treasure passageTreasure;
     /**
     *   the door in the passage.
     **/
@@ -33,6 +36,7 @@ public class PassageSection implements java.io.Serializable{
     *   tells wether or not there is a monster.
     **/
     private boolean monsterBool;
+    private boolean treasureBool;
     /**
     *   tells wether there is a door or not.
     **/
@@ -121,9 +125,9 @@ public class PassageSection implements java.io.Serializable{
                 setEnd(true);
                 break;
             case 20:
-                temp = new Monster();
-                temp.setType(D20.d20());
-                addMonster(temp);
+                // temp = new Monster();
+                // temp.setType(D20.d20());
+                // addMonster(temp);
                 break;
             default:
                 break;
@@ -160,6 +164,14 @@ public class PassageSection implements java.io.Serializable{
      */
     private boolean hasMonster() {
         return monsterBool;
+    }
+
+    /**
+     * returtns if the section has a monster.
+     * @return treasureBool
+     */
+    private boolean hasTreasure() {
+        return treasureBool;
     }
 
     /**
@@ -201,6 +213,23 @@ public class PassageSection implements java.io.Serializable{
     public void addMonster(Monster theMonster) {
         passageMonster = theMonster;
         setMonster(true);
+    }
+
+    /**
+     * sets the treasure boolean.
+     * @param flag the given flag t or f
+     */
+    private void setTreasure(boolean flag)  {
+        treasureBool = flag;
+    }
+
+    /**
+     * adds a treasure and flips the flag to true.
+     * @param theTreasure the treasure to add
+     */
+    public void addTreasure(Treasure theTreasure) {
+        passageTreasure = theTreasure;
+        setTreasure(true);
     }
 
     /**
@@ -247,6 +276,19 @@ public class PassageSection implements java.io.Serializable{
     }
 
     /**
+     * gets the treasure in the section.
+     * @return the treasure in the section.
+     */
+    public Treasure getTreasure() {
+        //returns the treasure that is in the passage section, if  there is one
+        if  (hasTreasure())  {
+            return passageTreasure;
+        } else  {
+            return null;
+        }
+    }
+
+    /**
      * generates the description.
      * @return string of description
      */
@@ -255,7 +297,15 @@ public class PassageSection implements java.io.Serializable{
         if (hasMonster()) {
             Monster monster = getMonster();
             toReturn = toReturn.concat("\n\t\tMonster: Between " + monster.getMinNum() + " and " +  monster.getMaxNum() + " " + monster.getDescription());
-        }
+        } else if (hasTreasure()) {
+            Treasure treasure = getTreasure();
+                toReturn = toReturn.concat("\n   Treasure: " + treasure.getDescription() + " contained in " + treasure.getContainer());
+            try  {
+                toReturn = toReturn.concat(" protected by " + treasure.getProtection());
+            } catch (NotProtectedException e)  {
+                toReturn = toReturn.concat("unprotected");
+            }
+        } 
         return toReturn;
     }
 
@@ -316,5 +366,6 @@ public class PassageSection implements java.io.Serializable{
         rollTable.put(18, "Dead End");
         rollTable.put(19, "Dead End");
         rollTable.put(20, "Wandering Monster (passage continues straight for 10 ft)");
+        rollTable.put(21, "Treasure (passage continues straight for 10ft)");
     }
 }

@@ -3,7 +3,10 @@ package dungeon;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import dnd.models.Treasure;
+import dnd.models.Monster;
 import dnd.die.D20;
+import dnd.die.Percentile;
 
 public class DungeonGenerator implements java.io.Serializable{
     /**
@@ -35,6 +38,8 @@ public class DungeonGenerator implements java.io.Serializable{
      */
     private HashMap<Door, ArrayList<Chamber>> doorMap;
 
+    private HashSet<Treasure> treasureList;
+
     /**
      * constructor for the class.
      */
@@ -61,6 +66,69 @@ public class DungeonGenerator implements java.io.Serializable{
             s.reset();
         }
         initDungeon();
+    }
+
+    private void generateTreasureList() {
+        treasureList = new HashSet<Treasure>();
+        Treasure temp;
+        for (int i = 0; i < 100; i++) {
+            temp = new Treasure();
+            temp.chooseTreasure(Percentile.percentile());
+            temp.setContainer(D20.d20());
+            treasureList.add(temp);
+        }
+    }
+
+    public ArrayList<String> getPossibleTreasure() {
+        ArrayList<String> toReturn = new ArrayList<String>();
+        ArrayList<Treasure> temp = new ArrayList<Treasure>(treasureList);
+        for (Treasure t : temp) {
+            toReturn.add(t.getDescription());
+        }
+        return toReturn;
+    }
+
+    public ArrayList<String> getTreasureListFromSpace(Integer index) {
+        ArrayList<String> toReturn = new ArrayList<String>();
+        if (index == -1) {
+            return toReturn;
+        }
+        for (Treasure t : getSpaces().get(index).getTreasureList()) {
+            toReturn.add(t.getDescription());
+        }
+        return toReturn;
+    }
+
+    public ArrayList<String> getMonsterListFromSpace(Integer index) {
+        ArrayList<String> toReturn = new ArrayList<String>();
+        if (index == -1) {
+            return toReturn;
+        }
+        for (Monster m : getSpaces().get(index).getMonsters()) {
+            toReturn.add(m.getDescription());
+        }
+        return toReturn;
+    }
+
+    public void addMonsterToSpace(Integer itemIndex, Integer spaceIndex) {
+        //get monster from database and turn it into monster we can work with then pass it off to the dungeon.
+        System.out.println(itemIndex + " " + spaceIndex);
+    }
+
+    public void removeMonsterFromSpace(Integer itemIndex, Integer spaceIndex) {
+        Monster temp = getSpaces().get(spaceIndex).getMonsters().get(itemIndex);
+        getSpaces().get(spaceIndex).removeMonster(temp);
+    }
+
+    public void addTreasureToSpace(Integer itemIndex, Integer spaceIndex) {
+        ArrayList<Treasure> tempList = new ArrayList<Treasure>(treasureList);
+        Treasure temp = tempList.get(itemIndex);
+        getSpaces().get(spaceIndex).addTreasure(temp);
+    }
+
+    public void removeTreasureFromSpace(Integer itemIndex, Integer spaceIndex) {
+        Treasure temp = getSpaces().get(spaceIndex).getTreasureList().get(itemIndex);
+        getSpaces().get(spaceIndex).removeTreasure(temp);
     }
 
     /**
@@ -433,6 +501,7 @@ public class DungeonGenerator implements java.io.Serializable{
         associationMap = new HashMap<Integer, ArrayList<Door>>();
         doorList = new ArrayList<Door>();
         thePassageList = new ArrayList<Passage>();
+        generateTreasureList();
     }
 
     /**

@@ -28,25 +28,46 @@ public class Controller {
         System.out.println("Thanks for clicking!");
     }
 
-    public void setMonsterInSpace(String theMonster, Integer theIndex) {
+    public void addMonsterToSpace(Integer itemIndex, Integer spaceIndex) {
         //get monster from database and turn it into monster we can work with then pass it off to the dungeon.
-        System.out.println(theMonster + " " + theIndex);
+        System.out.println(itemIndex + " " + spaceIndex);
     }
 
-    public ArrayList<String> getMonsterAddRemoveList() {
-        ArrayList<String> toReturn = new ArrayList<String>();
-        toReturn.add("monster 1 for new");
-        toReturn.add("monster 2 for new");
-        toReturn.add("monster 3 for new");
-        return toReturn;
+    public void removeMonsterFromSpace(Integer itemIndex, Integer spaceIndex) {
+        dungeon.removeMonsterFromSpace(itemIndex, spaceIndex);
     }
 
-    public ArrayList<String> getMonsterList() {
+    public void addTreasureToSpace(Integer itemIndex, Integer spaceIndex) {
+        dungeon.addTreasureToSpace(itemIndex, spaceIndex);
+    }
+
+    public void removeTreasureFromSpace(Integer itemIndex, Integer spaceIndex) {
+        dungeon.removeTreasureFromSpace(itemIndex, spaceIndex);
+    }
+
+    public ArrayList<String> getMonsterListInSpace(Integer theIndex) {
+        return dungeon.getMonsterListFromSpace(theIndex);
+    }
+
+    public ArrayList<String> getMonsterListDatabase() {
         ArrayList<String> toReturn = new ArrayList<String>();
         toReturn.add("monster 1");
         toReturn.add("monster 2");
         toReturn.add("monster 3");
         return toReturn;
+    }
+
+    public void setTreasureInSpace(String theTreasure, Integer theIndex) {
+        //get monster from database and turn it into monster we can work with then pass it off to the dungeon.
+        System.out.println(theTreasure + " " + theIndex);
+    }
+
+    public ArrayList<String> getTreasureListDatabase() {
+        return dungeon.getPossibleTreasure();
+    }
+
+    public ArrayList<String> getTreasureListInSpace(Integer theIndex) {
+        return dungeon.getTreasureListFromSpace(theIndex);
     }
 
     /**

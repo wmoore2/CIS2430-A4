@@ -8,6 +8,7 @@ import dnd.models.Stairs;
 import dnd.models.Trap;
 import dnd.models.Exit;
 import dnd.die.D20;
+import dnd.die.Percentile;
 import dnd.exceptions.UnusualShapeException;
 import dnd.exceptions.NotProtectedException;
 import java.util.ArrayList;
@@ -278,6 +279,7 @@ public class Chamber extends Space implements java.io.Serializable{
     *   adds a monster to the chamber.
     *   @param theMonster the monster to add to the chamber
     **/
+    @Override
     public void addMonster(Monster theMonster) {
         monsterList.add(theMonster);
     }
@@ -295,6 +297,7 @@ public class Chamber extends Space implements java.io.Serializable{
     *   gets the list of monsters in the chamber.
     *   @return ArrayList<Monster> the monsters contained in the chamber
     **/
+    @Override
     public ArrayList<Monster> getMonsters() {
         return monsterList;
     }
@@ -353,8 +356,27 @@ public class Chamber extends Space implements java.io.Serializable{
     *   adds the given treasure to the chamber.
     *   @param theTreasure the treasure to add to the chamber.
     **/
+    @Override
     public void addTreasure(Treasure theTreasure) {
         treasureList.add(theTreasure);
+    }
+
+    /**
+     * removes the given treasure from the chamber.
+     * @param theTreasure the treasure to remove.
+     */
+    @Override
+    public void removeTreasure(Treasure theTreasure) {
+        treasureList.remove(theTreasure);
+    }
+
+    /**
+     * removes the monster from the chaber.
+     * @param theMonster the monster to remove
+     */
+    @Override
+    public void removeMonster(Monster theMonster) {
+        monsterList.remove(theMonster);
     }
 
     /**
@@ -362,7 +384,7 @@ public class Chamber extends Space implements java.io.Serializable{
      */
     private void addRandomTreasure() {
         Treasure theTreasure = new Treasure();
-        theTreasure.chooseTreasure(D20.d20());
+        theTreasure.chooseTreasure(Percentile.percentile());
         theTreasure.setContainer(D20.d20());
         addTreasure(theTreasure);
     }
@@ -371,6 +393,7 @@ public class Chamber extends Space implements java.io.Serializable{
     *   gets the list of treasure in the chamber.
     *   @return ArrayList<Treasure> the list of treasure in the chamber
     **/
+    @Override
     public ArrayList<Treasure> getTreasureList() {
         return treasureList;
     }
@@ -485,37 +508,37 @@ public class Chamber extends Space implements java.io.Serializable{
         String toReturn = new String("");
         switch (getRoll()) {
             case NOTHING_ROLL:
-                if (!getMonsters().isEmpty()) {
-                    toReturn = toReturn.concat("Contents:" + getMonsterDesc(0) + "\n");
-                }
                 break;
             case MONSTER_ROLL:
-                toReturn = toReturn.concat("Contents:" + getMonsterDesc(0) + "\n");
                 break;
             case MONSTER_TREASURE_ROLL:
-                toReturn = toReturn.concat("Contents:" + getMonsterDesc(0) + getTreasureDesc(0) + "\n");
                 break;
             case SPECIAL_ROLL:
                 toReturn = toReturn.concat("Contents:" + getStairsDesc(0) + "\n");
-                if (!getMonsters().isEmpty()) {
-                    toReturn = toReturn.concat(getMonsterDesc(0) + "\n");
-                }
+                
                 break;
             case TRAP_ROLL:
                 toReturn = toReturn.concat("Contents:" + getTrapDesc(0) + "\n");
-                if (!getMonsters().isEmpty()) {
-                    toReturn = toReturn.concat(getMonsterDesc(0) + "\n");
-                }
+                
                 break;
             case TREASURE_ROLL:
-                toReturn = toReturn.concat("Contents:" + getTreasureDesc(0) + "\n");
-                if (!getMonsters().isEmpty()) {
-                    toReturn = toReturn.concat(getMonsterDesc(0) + "\n");
-                }
                 break;
             default:
                 break;
         }
+
+        if (toReturn.equals("") && (getMonsters().size() != 0 || getTreasureList().size() != 0)) {
+            toReturn = toReturn.concat("Contents: ");
+        }
+
+        for (int i = 0; i < getMonsters().size(); i++) {
+            toReturn = toReturn.concat(getMonsterDesc(i));
+        }
+
+        for (int i = 0; i < getTreasureList().size(); i++) {
+            toReturn = toReturn.concat(getTreasureDesc(i));
+        }
+
         return toReturn;
     }
 

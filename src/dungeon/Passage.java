@@ -1,6 +1,7 @@
 package dungeon;
 
 import dnd.models.Monster;
+import dnd.models.Treasure;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +36,8 @@ public class Passage extends Space implements java.io.Serializable{
      * hasmap of doors and sections.
      */
     private HashMap<Door, PassageSection> doorMap;
+    private HashMap<Treasure, ArrayList<PassageSection>> treasureMap;
+    private HashMap<Monster, ArrayList<PassageSection>> monsterMap;
 
     /**
      * constructor.
@@ -54,6 +57,8 @@ public class Passage extends Space implements java.io.Serializable{
     private void initPassage()  {
         thePassage = new ArrayList<PassageSection>();
         doorMap = new HashMap<Door, PassageSection>();
+        treasureMap = new HashMap<Treasure, ArrayList<PassageSection>>();
+        monsterMap = new HashMap<Monster, ArrayList<PassageSection>>();
         setChamberNum();
         setDeadEnd(false);
     }
@@ -179,6 +184,107 @@ public class Passage extends Space implements java.io.Serializable{
         if (temp.hasDoor()) {
             temp.getDoor().setSpaces(this, null);
         }
+    }
+
+    /**
+     * adds the given monster to the passage.
+     * @param theMonster the monster
+     */
+    public void addMonster(Monster theMonster) {
+        ArrayList<PassageSection> tempList;
+        PassageSection temp = new PassageSection(20);
+        if (!monsterMap.containsKey(theMonster)) {
+            tempList = new ArrayList<PassageSection>();
+        } else {
+            tempList = monsterMap.get(theMonster);
+        }
+        temp.addMonster(theMonster);
+        tempList.add(temp);
+        monsterMap.put(theMonster, tempList);
+        addPassageSection(temp);
+    }
+
+    /**
+     * removes the given monster from the passage.
+     * @param theMonster the monster
+     */
+    @Override
+    public void removeMonster(Monster theMonster) {
+        thePassage.remove(monsterMap.get(theMonster).get(0));
+        monsterMap.get(theMonster).remove(0);
+        if (monsterMap.get(theMonster).size() == 0) {
+            monsterMap.remove(theMonster);
+        }
+    }
+
+    /**
+     * adds the given treasure to the passage.
+     * @param theTreasure the treasure.
+     */
+    @Override
+    public void addTreasure(Treasure theTreasure) {
+        ArrayList<PassageSection> tempList;
+        PassageSection temp = new PassageSection(21);
+        if (!treasureMap.containsKey(theTreasure)) {
+            tempList = new ArrayList<PassageSection>();
+        } else {
+            tempList = treasureMap.get(theTreasure);
+        }
+        temp.addTreasure(theTreasure);
+        tempList.add(temp);
+        treasureMap.put(theTreasure, tempList);
+        addPassageSection(temp);
+    }
+
+    /**
+     * removes the given treasure from the passage.
+     * @param theTreasure the treasure
+     */
+    @Override
+    public void removeTreasure(Treasure theTreasure) {
+        thePassage.remove(treasureMap.get(theTreasure).get(0));
+        treasureMap.get(theTreasure).remove(0);
+        if (treasureMap.get(theTreasure).size() == 0) {
+            treasureMap.remove(theTreasure);
+        }
+    }
+
+    /**
+     * gets the list of treasure in the passage.
+     * @return the list of treasure
+     */
+    @Override
+    public ArrayList<Treasure> getTreasureList() {
+        int counter = 0;
+        ArrayList<Treasure> toReturn = new ArrayList<Treasure>();
+        ArrayList<PassageSection> temp;
+        for (Treasure t : treasureMap.keySet()) {
+            temp = new ArrayList<PassageSection>(treasureMap.get(t));
+            for (int i = 0; i < temp.size(); i++) {
+                toReturn.add(t);
+            }
+            counter++;
+        }
+        return toReturn;
+    }
+
+    /**
+     * gets the list of monsters in the passage.
+     * @return the list of monsters
+     */
+    @Override
+    public ArrayList<Monster> getMonsters() {
+        int counter = 0;
+        ArrayList<Monster> toReturn = new ArrayList<Monster>();
+        ArrayList<PassageSection> temp;
+        for (Monster t : monsterMap.keySet()) {
+            temp = new ArrayList<PassageSection>(monsterMap.get(t));
+            for (int i = 0; i < temp.size(); i++) {
+                toReturn.add(t);
+            }
+            counter++;
+        }
+        return toReturn;
     }
 
     /**

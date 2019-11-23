@@ -50,6 +50,7 @@ public class GuiDemo<toReturn> extends Application {
     private ListButtonPane monsterEditPane;
     private ListButtonPane monsterAddRemovePane;
     private ListButtonPane treasureAddRemovePane;
+    private ListButtonPane treasureAddPane;
 
     /*a call to start replaces a call to the constructor for a JavaFX GUI*/
     @Override
@@ -57,13 +58,14 @@ public class GuiDemo<toReturn> extends Application {
         /*Initializing instance variables */
         theController = new Controller(this);
         primaryStage = assignedStage;
+        root = setUpRoot();
         createMonsterEditPane();
         createMonsterAddRemovePane();
         createTreasureAddRemovePane();
+        createTreasureAddPane();
         createEditChoiceStage();
 
         /*Border Panes have  top, left, right, center and bottom sections */
-        root = setUpRoot();
         Scene scene = new Scene(root, 1000, 600);
         scene.getStylesheets().add("/res/stylesheet.css");
         primaryStage.setTitle("Dungeon Editor");
@@ -73,18 +75,16 @@ public class GuiDemo<toReturn> extends Application {
 
     private void createMonsterEditPane() {
         monsterEditPane = new ListButtonPane("Add/Edit Monster", 600, 300);
-        updateMonsterEditPaneList();
         monsterEditPane.getLeftPanelLabel().setText("Monsters from Database");
-        monsterEditPane.getRightPanelTopButton().setText("Add Selected");
+        monsterEditPane.getRightPanelTopButton().setText("Confirm Add");
         monsterEditPane.getRightPanelBottomButton().setText("Edit Selected");
+        updateMonsterEditPaneList();
         setMonsterEditPaneButtonActions();
     }
 
     private void updateMonsterEditPaneList() {
-        monsterEditPane.getLeftPanelList().getItems().clear();
-        for (String s : theController.getMonsterList()) {
-            monsterEditPane.getLeftPanelList().getItems().add(s);
-        }
+        monsterEditPane.setList(theController.getMonsterListDatabase());
+
         if (mainText != null) {
             updateMainDescriptionText();
         }
@@ -93,30 +93,29 @@ public class GuiDemo<toReturn> extends Application {
     private void setMonsterEditPaneButtonActions() {
         monsterEditPane.getRightPanelTopButton().setOnAction(event -> {
             System.out.println("not in yet");
-            if (monsterEditPane.getLeftPanelList().getSelectionModel().getSelectedIndex() != -1) {
-                theController.setMonsterInSpace((String)monsterEditPane.getLeftPanelList().getItems().get(monsterEditPane.getLeftPanelList().getSelectionModel().getSelectedIndex()), (Integer)list.getSelectionModel().getSelectedIndex());
+            if (monsterEditPane.listHasSelection()) {
+                theController.addMonsterToSpace(monsterEditPane.getSelectedIndex(), getSelectedSpace());
+                updateMonsterEditPaneList();
             }
         });
 
         monsterEditPane.getRightPanelBottomButton().setOnAction(event -> {
-            System.out.println("not in yet");
+            System.out.println("edit monster button");
         });
     }
 
     private void createMonsterAddRemovePane() {
         monsterAddRemovePane = new ListButtonPane("Add/Remove Monster", 600, 300);
-        updateMonsterAddRemovePaneList();
-        monsterAddRemovePane.getLeftPanelLabel().setText("Monsters");
+        monsterAddRemovePane.getLeftPanelLabel().setText("Monsters in Space");
         monsterAddRemovePane.getRightPanelTopButton().setText("Add/Edit New Monster");
-        monsterAddRemovePane.getRightPanelBottomButton().setText("Remove Selected");
+        monsterAddRemovePane.getRightPanelBottomButton().setText("Confirm Remove");
+        updateMonsterAddRemovePaneList();
         setMonsterAddRemovePaneButtonActions();
     }
 
     private void updateMonsterAddRemovePaneList() {
-        monsterAddRemovePane.getLeftPanelList().getItems().clear();
-        for (String s : theController.getMonsterAddRemoveList()) {
-            monsterAddRemovePane.getLeftPanelList().getItems().add(s);
-        }
+        monsterAddRemovePane.setList(theController.getMonsterListInSpace(getSelectedSpace()));
+        
         if (mainText != null) {
             updateMainDescriptionText();
         }
@@ -128,28 +127,74 @@ public class GuiDemo<toReturn> extends Application {
         });
 
         monsterAddRemovePane.getRightPanelBottomButton().setOnAction(event -> {
-            System.out.println("not in yet");
-            if (monsterAddRemovePane.getLeftPanelList().getSelectionModel().getSelectedIndex() != -1) {
-                
+            System.out.println("remove monster button");
+            if (monsterAddRemovePane.listHasSelection()) {
+                theController.removeMonsterFromSpace(monsterAddRemovePane.getSelectedIndex(), getSelectedSpace());
+                updateMonsterAddRemovePaneList();
             }
         });
     }
 
     private void createTreasureAddRemovePane() {
         treasureAddRemovePane = new ListButtonPane("Add/Remove Treasure", 600, 300);
+        treasureAddRemovePane.getLeftPanelLabel().setText("Treasure in Space");
+        treasureAddRemovePane.getRightPanelTopButton().setText("Add New Treasure");
+        treasureAddRemovePane.getRightPanelBottomButton().setText("Confirm Remove");
         updateTreasureAddRemovePaneList();
-        treasureAddRemovePane.getLeftPanelLabel().setText("Treasure");
-        treasureAddRemovePane.getRightPanelTopButton().setText("Add Treasure");
-        treasureAddRemovePane.getRightPanelBottomButton().setText("Remove Selected");
         setTreasureAddRemovePaneButtonActions();
     }
 
     private void updateTreasureAddRemovePaneList() {
+        treasureAddRemovePane.setList(theController.getTreasureListInSpace(getSelectedSpace()));
 
+        if (mainText != null) {
+            updateMainDescriptionText();
+        }
     }
 
     private void setTreasureAddRemovePaneButtonActions() {
+        treasureAddRemovePane.getRightPanelTopButton().setOnAction(event ->{
+                treasureAddPane.getStage().show();
+        });
 
+        treasureAddRemovePane.getRightPanelBottomButton().setOnAction(event ->{
+            System.out.println("remove treasure button");
+            if (treasureAddRemovePane.listHasSelection()) {
+                theController.removeTreasureFromSpace(treasureAddRemovePane.getSelectedIndex(), getSelectedSpace());
+                updateTreasureAddRemovePaneList();
+            }
+        });
+    }
+
+    private void createTreasureAddPane() {
+        treasureAddPane = new ListButtonPane("Add Treasure", 600, 300);
+        treasureAddPane.getLeftPanelLabel().setText("Treasure");
+        treasureAddPane.getRightPanelTopButton().setText("Confirm Add");
+        treasureAddPane.getRightPanelBottomButton().setText("Cancel");
+        updateTreasureAddPaneList();
+        setTreasureAddPaneButtonActions();
+    }
+
+    private void updateTreasureAddPaneList() {
+        treasureAddPane.setList(theController.getTreasureListDatabase());
+
+        if (mainText != null) {
+            updateMainDescriptionText();
+        }
+    }
+
+    private void setTreasureAddPaneButtonActions() {
+        treasureAddPane.getRightPanelTopButton().setOnAction(event ->{
+            System.out.println("add treasure button");
+            if (treasureAddPane.listHasSelection()) {
+                theController.addTreasureToSpace(treasureAddPane.getSelectedIndex(), getSelectedSpace());
+                updateTreasureAddRemovePaneList();
+            }
+        });
+
+        treasureAddPane.getRightPanelBottomButton().setOnAction(event ->{
+            treasureAddPane.getStage().hide();
+        });
     }
 
     private void createEditChoiceStage() {
@@ -190,6 +235,14 @@ public class GuiDemo<toReturn> extends Application {
         toReturn.getChildren().add(treasureButton);
 
         return toReturn;
+    }
+
+    /**
+     * utility function gets the currently selected space.
+     * @return the index of the selected space
+     */
+    private Integer getSelectedSpace() {
+        return (Integer)list.getSelectionModel().getSelectedIndex();
     }
 
 //this method sets up the main sort of stage
@@ -355,8 +408,18 @@ public class GuiDemo<toReturn> extends Application {
         list.setPrefHeight(1000);
         list.setOnMouseClicked(event -> {
             updateMainDescriptionText();
+            updateMonsterTreasureWindows();
         });
         return list;
+    }
+
+
+    /**
+     * updates the windows of the monster and treasure selection windows
+     */
+    private void updateMonsterTreasureWindows() {
+        updateTreasureAddRemovePaneList();
+        updateMonsterAddRemovePaneList();
     }
 
     /**

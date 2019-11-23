@@ -1,17 +1,28 @@
+/* Color Theme Swatches in Hex */
+.HVC-darkTheme-1-hex { color: #FF6961; }
+.HVC-darkTheme-2-hex { color: #BFBFBF; }
+.HVC-darkTheme-3-hex { color: #737373; }
+.HVC-darkTheme-4-hex { color: #404040; }
+.HVC-darkTheme-5-hex { color: #262626; }
 
+/*styling for the region superclass*/
 .region{
     -fx-background-color: #262626;
     -fx-border-color: #FF6961;
 }
 
+/*styling for the labels*/
 .label{
     -fx-font-size: 18px;
 }
 
+/*styling for text in a menu bar*/
 .menu-bar .text{
     -fx-font-size: 14px;
 }
 
+/*styling for a menu bar
+ TODO make the styling a region thing so that this repeated style isnt included*/
 .menu-bar{
     -fx-use-system-menu-bar: true;
     -fx-padding: 2;
@@ -28,50 +39,58 @@
     -fx-text-alignment: center;
 }
 
+/*styling for the context menu or drop down for the menu bar*/
 .menu-bar .context-menu{
     -fx-background-color: #404040;
 }
 
+/*changes the fill on text when the mouse has clicked and is in the context menu*/
 .menu-bar .showing .text{
     -fx-fill: #262626;
 }
 
+/*changes the fill on the context menu text*/
 .menu .context-menu .menu-item .text{
     -fx-fill: #BFBFBF;
 }
 
+/*changes fill color on highlight*/
 .menu .context-menu .menu-item:focused .text{
     -fx-fill: #262626;
 }
 
+/*changes background color and cursor to hand on hightlight*/
 .menu:hover{
     -fx-background-color: #FF6961;
     -fx-cursor: hand;
 }
 
+/*changes text color on hover*/
 .menu:hover .text{
     -fx-fill: #262626;
 }
 
+/*changes color when clicked*/
 .menu:focused{
     -fx-background-color: #FF6961;
 }
 
+/*changes text color when clicked*/
 .menu-item:focused .text{
     -fx-fill: #262626;
 }
 
+/*changes the menu item color when focused*/
 .menu-item:focused{
     -fx-background-color: #FF6961;
 }
 
-.menu-item .text{
-}
-
+/*changes default text fill*/
 .text{
     -fx-fill: #BFBFBF;
 }
 
+/*changes styling for the text area content*/
 .text-area .content{
     -fx-border-style: solid inside;
     -fx-wrap-text: true;
@@ -80,6 +99,7 @@
     -fx-padding: 2;
 }
 
+/*changes styling for the entire text area*/
 .text-area{
     -fx-focus-color: #FF6961;
     -fx-border-width: 2;
@@ -88,14 +108,17 @@
     -fx-font-size: 14px;
 }
 
+/*changes styling of the text on a button*/
 .button .text{
     -fx-fill: #262626;
 }
 
+/*changes cursor on hover of a button*/
 .button:hover {
     -fx-cursor: hand;
 }
 
+/*changes button styling*/
 .button{
     -fx-font-size: 14px;
     -fx-background-color: #FF6961;
@@ -103,13 +126,7 @@
     -fx-padding: 6 6 6 6;
 }
 
-/* Color Theme Swatches in Hex */
-.HVC-darkTheme-1-hex { color: #FF6961; }
-.HVC-darkTheme-2-hex { color: #BFBFBF; }
-.HVC-darkTheme-3-hex { color: #737373; }
-.HVC-darkTheme-4-hex { color: #404040; }
-.HVC-darkTheme-5-hex { color: #262626; }
-
+/*changes styling of the choice box element*/
 .choice-box {
     -fx-padding: 2;
     -fx-border-style: solid inside;
@@ -124,27 +141,33 @@
     -fx-text-alignment: center;
 }
 
+/*changes the text styling in a choice box*/
 .choice-box .text{
     -fx-font-size: 14px;
     -fx-fill: #262626;
 }
 
+/*changes styling in the context menu of a choice box*/
 .choice-box .context-menu{
     -fx-background-color: #404040;
 }
 
+/*changes text styling in the context menu of a choice box*/
 .choice-box .context-menu .text{
     -fx-fill: #BFBFBF;
 }
 
+/*changes cursor to hand on hover of a choice box*/
 .choice-box:hover{
     -fx-cursor:hand;
 }
 
+/*changes text fill of a context menu entry when focused*/
 .choice-box .context-menu .menu-item:focused .text{
     -fx-fill:#262626;
 }
 
+/*controls the look of the list view class*/
 .list-view {
     -fx-padding: 2;
     -fx-border-style: solid inside;
@@ -158,29 +181,35 @@
     -fx-font-size: 14px;
 }
 
+/*changes color of selected element text*/
 .list-view .list-cell:selected .text{
     -fx-fill: #262626;
 }
 
+/*changes the background color of the selected element in the list*/
 .list-view .list-cell:selected {
     -fx-background-color: #FF6961;
     -fx-fill-fill: #262626;
 }
 
+/*changes cursor to hand on hover of list view*/
 .list-view:hover{
     -fx-cursor: hand;
 }
 
+/*changes the color of the even entries in the list*/
 .list-cell:even {
     -fx-background-color: #262626;
     -fx-text-fill: #404040;
 }
 
+/*changes the color of the odd entries of the list*/
 .list-cell:odd {
     -fx-background-color: #404040;
     -fx-text-fill: #262626;
 }
 
+/*changes the look of the VBOX*/
 VBox{
     -fx-padding: 10;
     -fx-border-style: solid inside;

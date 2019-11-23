@@ -1,6 +1,8 @@
 package dungeon;
 
 import java.util.ArrayList;
+import dnd.models.Treasure;
+import dnd.models.Monster;
 
 public abstract class Space implements java.io.Serializable{
     /**
@@ -46,6 +48,42 @@ public abstract class Space implements java.io.Serializable{
      * @return implemented in children
      */
     public abstract String getDescription();
+
+    /**
+     * gets the treasure in the space;
+     * @return the list of treasure
+     */
+    public abstract ArrayList<Treasure> getTreasureList();
+
+    /**
+     * gets the monsters in the space.
+     * @return           [the monsters in the space]
+     */
+    public abstract ArrayList<Monster> getMonsters();
+
+    /**
+     * adds given treasure to the space.
+     * @param theTreasure the treasure to add
+     */
+    public abstract void addTreasure(Treasure theTreasure);
+
+    /**
+     * removes the given treasure from the space.
+     * @param theTreasure the treasure to remove.
+     */
+    public abstract void removeTreasure(Treasure theTreasure);
+
+    /**
+     * adds the given monster to the space.
+     * @param theMonster the monster to add
+     */
+    public abstract void addMonster(Monster theMonster);
+
+    /**
+     * removes the given monster from the space.
+     * @param theMonster the monster to remove.
+     */
+    public abstract void removeMonster(Monster theMonster);
 
     /**
      * gets the doors in the space.
