@@ -51,6 +51,7 @@ public class GuiDemo<toReturn> extends Application {
     private ListButtonPane monsterAddRemovePane;
     private ListButtonPane treasureAddRemovePane;
     private ListButtonPane treasureAddPane;
+    private ListButtonPane monsterEditDBPane;
 
     /*a call to start replaces a call to the constructor for a JavaFX GUI*/
     @Override
@@ -60,6 +61,7 @@ public class GuiDemo<toReturn> extends Application {
         primaryStage = assignedStage;
         root = setUpRoot();
         createMonsterEditPane();
+        createMonsterEditDBPane();
         createMonsterAddRemovePane();
         createTreasureAddRemovePane();
         createTreasureAddPane();
@@ -77,7 +79,7 @@ public class GuiDemo<toReturn> extends Application {
         monsterEditPane = new ListButtonPane("Add/Edit Monster", 600, 300);
         monsterEditPane.getLeftPanelLabel().setText("Monsters from Database");
         monsterEditPane.getRightPanelTopButton().setText("Confirm Add");
-        monsterEditPane.getRightPanelBottomButton().setText("Edit Selected");
+        monsterEditPane.getRightPanelBottomButton().setText("Edit Database");
         updateMonsterEditPaneList();
         setMonsterEditPaneButtonActions();
     }
@@ -85,24 +87,59 @@ public class GuiDemo<toReturn> extends Application {
     private void updateMonsterEditPaneList() {
         monsterEditPane.setList(theController.getMonsterListDatabase());
 
-        if (mainText != null) {
             updateMainDescriptionText();
         }
     }
 
     private void setMonsterEditPaneButtonActions() {
         monsterEditPane.getRightPanelTopButton().setOnAction(event -> {
-            System.out.println("not in yet");
             if (monsterEditPane.listHasSelection()) {
                 theController.addMonsterToSpace(monsterEditPane.getSelectedIndex(), getSelectedSpace());
                 updateMonsterEditPaneList();
+                updateMonsterAddRemovePaneList();
             }
         });
 
         monsterEditPane.getRightPanelBottomButton().setOnAction(event -> {
+            monsterEditDBPane.getStage().show();
+        });
+    }
+
+
+
+    private void createMonsterEditDBPane() {
+        monsterEditDBPane = new ListButtonPane("Edit Database", 600, 300);
+        monsterEditDBPane.getLeftPanelLabel().setText("Monsters from Database");
+        monsterEditDBPane.getRightPanelTopButton().setText("Create New Monster");
+        monsterEditDBPane.getRightPanelBottomButton().setText("Edit Selected");
+        updateMonsterEditDBPaneList();
+        setMonsterEditDBPaneButtonActions();
+    }
+
+    private void updateMonsterEditDBPaneList() {
+        monsterEditDBPane.setList(theController.getMonsterListDatabase());
+
+        if (mainText != null) {
+            updateMainDescriptionText();
+        }
+    }
+
+    private void setMonsterEditDBPaneButtonActions() {
+        monsterEditDBPane.getRightPanelTopButton().setOnAction(event -> {
+            if (monsterEditDBPane.listHasSelection()) {
+                theController.addMonsterToSpace(monsterEditDBPane.getSelectedIndex(), getSelectedSpace());
+                updateMonsterEditDBPaneList();
+                updateMonsterEditPaneList();
+                updateMonsterAddRemovePaneList();
+            }
+        });
+
+        monsterEditDBPane.getRightPanelBottomButton().setOnAction(event -> {
             System.out.println("edit monster button");
         });
     }
+
+
 
     private void createMonsterAddRemovePane() {
         monsterAddRemovePane = new ListButtonPane("Add/Remove Monster", 600, 300);
@@ -127,7 +164,6 @@ public class GuiDemo<toReturn> extends Application {
         });
 
         monsterAddRemovePane.getRightPanelBottomButton().setOnAction(event -> {
-            System.out.println("remove monster button");
             if (monsterAddRemovePane.listHasSelection()) {
                 theController.removeMonsterFromSpace(monsterAddRemovePane.getSelectedIndex(), getSelectedSpace());
                 updateMonsterAddRemovePaneList();

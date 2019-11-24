@@ -30,7 +30,7 @@ public class Controller {
 
     public void addMonsterToSpace(Integer itemIndex, Integer spaceIndex) {
         //get monster from database and turn it into monster we can work with then pass it off to the dungeon.
-        System.out.println(itemIndex + " " + spaceIndex);
+        dungeon.addMonsterToSpace(itemIndex, spaceIndex);
     }
 
     public void removeMonsterFromSpace(Integer itemIndex, Integer spaceIndex) {
@@ -50,11 +50,7 @@ public class Controller {
     }
 
     public ArrayList<String> getMonsterListDatabase() {
-        ArrayList<String> toReturn = new ArrayList<String>();
-        toReturn.add("monster 1");
-        toReturn.add("monster 2");
-        toReturn.add("monster 3");
-        return toReturn;
+        return dungeon.getDatabaseMonsterList();
     }
 
     public void setTreasureInSpace(String theTreasure, Integer theIndex) {

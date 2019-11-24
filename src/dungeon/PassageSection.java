@@ -1,6 +1,7 @@
 package dungeon;
 
 import dnd.models.Monster;
+import database.DBMonster;
 import dnd.models.Treasure;
 import dnd.exceptions.NotProtectedException;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ public class PassageSection implements java.io.Serializable{
     /**
     *   the monster in the passage.
     **/
-    private Monster passageMonster;
+    private DBMonster passageMonster;
     private Treasure passageTreasure;
     /**
     *   the door in the passage.
@@ -96,7 +97,7 @@ public class PassageSection implements java.io.Serializable{
     private void genSection() {
         //i already refactored this down and removed another method.
         //this could be broken down more but this is more readable to me.
-        Monster temp;
+        DBMonster temp;
         initializeTable();
         setDescription(rollTable.get(getRoll()));
         switch (getRoll()) {
@@ -125,7 +126,7 @@ public class PassageSection implements java.io.Serializable{
                 setEnd(true);
                 break;
             case 20:
-                // temp = new Monster();
+                // temp = new DBMonster();
                 // temp.setType(D20.d20());
                 // addMonster(temp);
                 break;
@@ -210,7 +211,7 @@ public class PassageSection implements java.io.Serializable{
      * adds a monster and flips the flag to true.
      * @param theMonster the monster to add
      */
-    public void addMonster(Monster theMonster) {
+    public void addMonster(DBMonster theMonster) {
         passageMonster = theMonster;
         setMonster(true);
     }
@@ -266,7 +267,7 @@ public class PassageSection implements java.io.Serializable{
      * gets the monster in the section.
      * @return the monster in the section.
      */
-    public Monster getMonster() {
+    public DBMonster getMonster() {
         //returns the monster that is in the passage section, if  there is one
         if  (hasMonster())  {
             return passageMonster;
@@ -295,8 +296,8 @@ public class PassageSection implements java.io.Serializable{
     private String genDescription() {
         String toReturn = new String();
         if (hasMonster()) {
-            Monster monster = getMonster();
-            toReturn = toReturn.concat("\n\t\tMonster: Between " + monster.getMinNum() + " and " +  monster.getMaxNum() + " " + monster.getDescription());
+            DBMonster monster = getMonster();
+            toReturn = toReturn.concat("Monster: " + monster.toString());
         } else if (hasTreasure()) {
             Treasure treasure = getTreasure();
                 toReturn = toReturn.concat("\n   Treasure: " + treasure.getDescription() + " contained in " + treasure.getContainer());

@@ -1,5 +1,6 @@
 package dungeon;
 
+import database.DBMonster;
 import dnd.models.Monster;
 import dnd.models.Treasure;
 
@@ -37,7 +38,7 @@ public class Passage extends Space implements java.io.Serializable{
      */
     private HashMap<Door, PassageSection> doorMap;
     private HashMap<Treasure, ArrayList<PassageSection>> treasureMap;
-    private HashMap<Monster, ArrayList<PassageSection>> monsterMap;
+    private HashMap<DBMonster, ArrayList<PassageSection>> monsterMap;
 
     /**
      * constructor.
@@ -58,7 +59,7 @@ public class Passage extends Space implements java.io.Serializable{
         thePassage = new ArrayList<PassageSection>();
         doorMap = new HashMap<Door, PassageSection>();
         treasureMap = new HashMap<Treasure, ArrayList<PassageSection>>();
-        monsterMap = new HashMap<Monster, ArrayList<PassageSection>>();
+        monsterMap = new HashMap<DBMonster, ArrayList<PassageSection>>();
         setChamberNum();
         setDeadEnd(false);
     }
@@ -161,7 +162,7 @@ public class Passage extends Space implements java.io.Serializable{
      * @param theMonster the monster to add
      * @param i          the index
      */
-    public void addMonster(Monster theMonster, int i) {
+    public void addMonster(DBMonster theMonster, int i) {
         // adds a monster to section 'i' of the passage
         thePassage.get(i).addMonster(theMonster);
     }
@@ -171,8 +172,8 @@ public class Passage extends Space implements java.io.Serializable{
      * @param  i the index
      * @return   the monster at the index
      */
-    public Monster getMonster(int i) {
-        //returns Monster door in section 'i'. if  there is no Monster, returns null
+    public DBMonster getMonster(int i) {
+        //returns DBMonster door in section 'i'. if  there is no DBMonster, returns null
         return thePassage.get(i).getMonster();
     }
 
@@ -190,7 +191,7 @@ public class Passage extends Space implements java.io.Serializable{
      * adds the given monster to the passage.
      * @param theMonster the monster
      */
-    public void addMonster(Monster theMonster) {
+    public void addMonster(DBMonster theMonster) {
         ArrayList<PassageSection> tempList;
         PassageSection temp = new PassageSection(20);
         if (!monsterMap.containsKey(theMonster)) {
@@ -209,7 +210,7 @@ public class Passage extends Space implements java.io.Serializable{
      * @param theMonster the monster
      */
     @Override
-    public void removeMonster(Monster theMonster) {
+    public void removeMonster(DBMonster theMonster) {
         thePassage.remove(monsterMap.get(theMonster).get(0));
         monsterMap.get(theMonster).remove(0);
         if (monsterMap.get(theMonster).size() == 0) {
@@ -273,11 +274,11 @@ public class Passage extends Space implements java.io.Serializable{
      * @return the list of monsters
      */
     @Override
-    public ArrayList<Monster> getMonsters() {
+    public ArrayList<DBMonster> getMonsters() {
         int counter = 0;
-        ArrayList<Monster> toReturn = new ArrayList<Monster>();
+        ArrayList<DBMonster> toReturn = new ArrayList<DBMonster>();
         ArrayList<PassageSection> temp;
-        for (Monster t : monsterMap.keySet()) {
+        for (DBMonster t : monsterMap.keySet()) {
             temp = new ArrayList<PassageSection>(monsterMap.get(t));
             for (int i = 0; i < temp.size(); i++) {
                 toReturn.add(t);

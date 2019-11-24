@@ -3,6 +3,8 @@ package dungeon;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import database.DBMonster;
+import database.DBConnection;
 import dnd.models.Treasure;
 import dnd.models.Monster;
 import dnd.die.D20;
@@ -104,19 +106,46 @@ public class DungeonGenerator implements java.io.Serializable{
         if (index == -1) {
             return toReturn;
         }
-        for (Monster m : getSpaces().get(index).getMonsters()) {
-            toReturn.add(m.getDescription());
+        for (DBMonster m : getSpaces().get(index).getMonsters()) {
+            toReturn.add(m.getName() + ": " + m.getDescription());
+        }
+        return toReturn;
+    }
+
+    public ArrayList<String> getDatabaseMonsterList() {
+        ArrayList<String> toReturn = new ArrayList<String>();
+        ArrayList<DBMonster> temp = new ArrayList<DBMonster>();
+        DBConnection db = new DBConnection();
+        DBMonster tempMonster;
+
+        for (String s : db.getAllMonsters()) {
+            tempMonster = new DBMonster();
+            temp.add(tempMonster.stringToMonster(s));
+        }
+
+        for (DBMonster m : temp) {
+            toReturn.add(m.getName() + ": " + m.getDescription());
         }
         return toReturn;
     }
 
     public void addMonsterToSpace(Integer itemIndex, Integer spaceIndex) {
-        //get monster from database and turn it into monster we can work with then pass it off to the dungeon.
-        System.out.println(itemIndex + " " + spaceIndex);
+        DBConnection db = new DBConnection();
+        DBMonster tempMonster;
+        ArrayList<DBMonster> tempList = new ArrayList<DBMonster>();
+
+        for (String s : db.getAllMonsters()) {
+            tempMonster = new DBMonster();
+            tempList.add(tempMonster.stringToMonster(s));
+        }
+
+
+        DBMonster temp = tempList.get(itemIndex);
+        getSpaces().get(spaceIndex).addMonster(temp);
     }
 
     public void removeMonsterFromSpace(Integer itemIndex, Integer spaceIndex) {
-        Monster temp = getSpaces().get(spaceIndex).getMonsters().get(itemIndex);
+        DBMonster temp = getSpaces().get(spaceIndex).getMonsters().get(itemIndex);
         getSpaces().get(spaceIndex).removeMonster(temp);
     }
 

@@ -2,6 +2,7 @@ package dungeon;
 
 import dnd.models.ChamberContents;
 import dnd.models.ChamberShape;
+import database.DBMonster;
 import dnd.models.Monster;
 import dnd.models.Treasure;
 import dnd.models.Stairs;
@@ -69,7 +70,7 @@ public class Chamber extends Space implements java.io.Serializable{
     /**
     *   list of monsters in chamber.
     **/
-    private ArrayList<Monster> monsterList;
+    private ArrayList<DBMonster> monsterList;
     /**
     *   list of stairs in chamber.
     **/
@@ -181,10 +182,10 @@ public class Chamber extends Space implements java.io.Serializable{
             /*No contents*/
             setRoll(NOTHING_ROLL);
         } else if  (equateRoll(MONSTER_ROLL, myContents))  {
-            /*Monster only*/
+            /*DBMonster only*/
             setRoll(MONSTER_ROLL);
         } else if  (equateRoll(MONSTER_TREASURE_ROLL, myContents))  {
-            /*Monster and Treasure*/
+            /*DBMonster and Treasure*/
             setRoll(MONSTER_TREASURE_ROLL);
         } else if  (equateRoll(SPECIAL_ROLL, myContents))  {
             /*Special/Stairs*/
@@ -235,7 +236,7 @@ public class Chamber extends Space implements java.io.Serializable{
     **/
     private void initChamber() {
         doorList = new ArrayList<Door>();
-        monsterList = new ArrayList<Monster>();
+        monsterList = new ArrayList<DBMonster>();
         treasureList = new ArrayList<Treasure>();
         stairList = new ArrayList<Stairs>();
         trapList = new ArrayList<Trap>();
@@ -280,7 +281,7 @@ public class Chamber extends Space implements java.io.Serializable{
     *   @param theMonster the monster to add to the chamber
     **/
     @Override
-    public void addMonster(Monster theMonster) {
+    public void addMonster(DBMonster theMonster) {
         monsterList.add(theMonster);
     }
 
@@ -288,17 +289,17 @@ public class Chamber extends Space implements java.io.Serializable{
      * Adds a random monster to the chamber.
      */
     private void addRandomMonster() {
-        Monster theMonster = new Monster();
-        theMonster.setType(D20.d20());
+        DBMonster theMonster = new DBMonster();
+        theMonster.setRandomMonster();
         addMonster(theMonster);
     }
 
     /**
     *   gets the list of monsters in the chamber.
-    *   @return ArrayList<Monster> the monsters contained in the chamber
+    *   @return ArrayList<DBMonster> the monsters contained in the chamber
     **/
     @Override
-    public ArrayList<Monster> getMonsters() {
+    public ArrayList<DBMonster> getMonsters() {
         return monsterList;
     }
 
@@ -375,7 +376,7 @@ public class Chamber extends Space implements java.io.Serializable{
      * @param theMonster the monster to remove
      */
     @Override
-    public void removeMonster(Monster theMonster) {
+    public void removeMonster(DBMonster theMonster) {
         monsterList.remove(theMonster);
     }
 
@@ -454,8 +455,8 @@ public class Chamber extends Space implements java.io.Serializable{
     **/
     private String getMonsterDesc(int index) {
         String toReturn = new String("");
-        Monster monster = monsterList.get(index);
-        toReturn = toReturn.concat("\n   Monster: Between " + monster.getMinNum() + " and " +  monster.getMaxNum() + " " + monster.getDescription());
+        DBMonster monster = monsterList.get(index);
+        toReturn = toReturn.concat("\n   Monster: " + monster.toString());
         return toReturn;
     }
 
