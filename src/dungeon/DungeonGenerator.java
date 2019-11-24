@@ -252,38 +252,6 @@ public class DungeonGenerator implements java.io.Serializable{
         }
     }
 
-    // /**
-    //  * creates the needed passage and links doors and spaces for the given map index.
-    //  * @param mapIndex the index in the map to create
-    //  */
-    // private void createTCase(int mapIndex) {
-    //     ArrayList<Door> tempDoorList = associationMap.get(mapIndex);
-    //     Door temp = tempDoorList.get(0), newDoor;
-    //     ArrayList<Passage> passageList = new ArrayList<Passage>();
-
-    //     for (int i = 0; i < tempDoorList.size(); i++) {
-    //         passageList.add(new Passage(false));
-    //     }
-
-    //     for (int i = 1; i < tempDoorList.size(); i++) {
-    //         passageList.get(i - 1).addDoorSection(temp, 1);
-    //         newDoor = new Door(PASSAGE, 1);
-    //         passageList.get(i - 1).addDoorSection(newDoor, D20.d20() % 2 + 7);
-    //     }
-
-    // }
-
-    // /**
-    //  * creates the needed passage and links doors and spaces for given map index.
-    //  * @param mapIndex the index in the associationMap
-    //  */
-    // private void createSimpleCase(int mapIndex) {
-    //     ArrayList<Door> tempList = associationMap.get(mapIndex);
-    //     Passage passage1 = new Passage(false), passage2 = new Passage(false);
-    //     passage1.addSection(0);
-    //     passage1.addSection(3);
-    // }
-
     /**
      * creates the dungeon given the values in the variables after other method calls.
      * need to do a lot more here its not that good
