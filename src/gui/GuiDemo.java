@@ -47,6 +47,7 @@ public class GuiDemo<toReturn> extends Application {
     private Popup descriptionPane;
     private Stage primaryStage;  //The stage that is passed in on initialization
     private Stage editChoiceStage;
+    private DBEdit dbedit;
     private ListButtonPane monsterEditPane;
     private ListButtonPane monsterAddRemovePane;
     private ListButtonPane treasureAddRemovePane;
@@ -126,20 +127,35 @@ public class GuiDemo<toReturn> extends Application {
     }
 
     private void setMonsterEditDBPaneButtonActions() {
+        
         monsterEditDBPane.getRightPanelTopButton().setOnAction(event -> {
+            dbedit = new DBEdit();
+            dbedit.getStage().show();
+            setUpDBEdit();
+            updateMonsterEditDBPaneList();
+            updateMonsterEditPaneList();
+            updateMonsterAddRemovePaneList();
+        });
+
+        monsterEditDBPane.getRightPanelBottomButton().setOnAction(event -> {
             if (monsterEditDBPane.listHasSelection()) {
-                theController.addMonsterToSpace(monsterEditDBPane.getSelectedIndex(), getSelectedSpace());
+                dbedit = new DBEdit(theController.getMonsterFromDatabase(monsterEditDBPane.getSelectedIndex()));
+                dbedit.getStage().show();
+                setUpDBEdit();
                 updateMonsterEditDBPaneList();
                 updateMonsterEditPaneList();
                 updateMonsterAddRemovePaneList();
             }
         });
-
-        monsterEditDBPane.getRightPanelBottomButton().setOnAction(event -> {
-            System.out.println("edit monster button");
-        });
     }
 
+    private void setUpDBEdit() {
+        dbedit.getStage().setOnHidden(event -> { 
+            updateMonsterEditDBPaneList();
+            updateMonsterEditPaneList();
+            updateMonsterAddRemovePaneList();
+        });
+    }
 
 
     private void createMonsterAddRemovePane() {

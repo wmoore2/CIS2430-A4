@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.sql.*;
 
 
-public class DBConnection {
+public class DBConnection implements java.io.Serializable{
 	
 	private Connection conn = null;
     private Statement stmt = null;
@@ -138,7 +138,7 @@ public class DBConnection {
 			while(rs.next()){
 				monster.setName(rs.getString("name"));
 				monster.setUpperBound(rs.getString("upper"));
-				monster.setLowerBound("lower");
+				monster.setLowerBound(rs.getString("lower"));
 				monster.setDescription(rs.getString("description"));
 			}
 
@@ -171,7 +171,7 @@ public class DBConnection {
 	 */
 	public void deleteMonster(String name){
 
-		String sql = "DELETE FROM Courses WHERE name = '" + name + "';" ;
+		String sql = "DELETE FROM Monsters WHERE name = '" + name + "';" ;
 		dbUpdate(sql);
 	}
 

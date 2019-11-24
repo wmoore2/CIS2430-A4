@@ -112,6 +112,12 @@ public class DungeonGenerator implements java.io.Serializable{
         return toReturn;
     }
 
+    public String getMonsterFromDatabase(Integer index) {
+        DBConnection db = new DBConnection();
+        DBMonster temp = new DBMonster();
+        return temp.stringToMonster(db.getAllMonsters().get(index)).getName();
+    }
+
     public ArrayList<String> getDatabaseMonsterList() {
         ArrayList<String> toReturn = new ArrayList<String>();
         ArrayList<DBMonster> temp = new ArrayList<DBMonster>();

@@ -28,6 +28,10 @@ public class Controller {
         System.out.println("Thanks for clicking!");
     }
 
+    public String getMonsterFromDatabase(Integer index) {
+        return dungeon.getMonsterFromDatabase(index);
+    }
+
     public void addMonsterToSpace(Integer itemIndex, Integer spaceIndex) {
         //get monster from database and turn it into monster we can work with then pass it off to the dungeon.
         dungeon.addMonsterToSpace(itemIndex, spaceIndex);

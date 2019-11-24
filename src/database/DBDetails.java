@@ -1,7 +1,6 @@
 package database;
 
-public class DBDetails
-{
+public class DBDetails implements java.io.Serializable {
 
 /*Change the username to be your own login name */
 

@@ -3,7 +3,7 @@ package database;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class DBMonster {
+public class DBMonster implements java.io.Serializable{
 
 	private String monsterName;
 	private String upperBound;
