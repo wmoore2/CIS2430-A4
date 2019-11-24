@@ -87,6 +87,7 @@ public class GuiDemo<toReturn> extends Application {
     private void updateMonsterEditPaneList() {
         monsterEditPane.setList(theController.getMonsterListDatabase());
 
+        if (mainText != null) {
             updateMainDescriptionText();
         }
     }
