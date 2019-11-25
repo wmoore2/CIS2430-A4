@@ -2,32 +2,22 @@ package gui;
 
 import javafx.application.Application;
 import javafx.collections.ObservableList;
-import javafx.collections.*;
-import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.control.TextArea;
-import javafx.scene.text.Text;
 import javafx.stage.Popup;
-import java.io.File;
 import javafx.stage.FileChooser;
-import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 
 
@@ -36,25 +26,80 @@ public class GuiDemo<toReturn> extends Application {
     so that you can break the processing up into smaller methods that have
     one responsibility.
      */
+    /**
+     * stuff.
+     */
     private MenuBar topBar;
+    /**
+     * stuff.
+     */
     private FileChooser fileDialog;
+    /**
+     * stupid checkstyle.
+     */
     private Controller theController;
+    /**
+     * main text.
+     */
     private TextArea mainText;      //main text for description in centre screen
+    /**
+     * doors.
+     */
     private ChoiceBox doors;
+    /**
+     * list.
+     */
     private ListView list;
+    /**
+     * root.
+     */
     private BorderPane root;  //the root element of this GUI
+    /**
+     * idk.
+     */
     private BorderPane editChoicePane;
+    /**
+     * stuff.
+     */
     private Popup descriptionPane;
+    /**
+     * stuff.
+     */
     private Stage primaryStage;  //The stage that is passed in on initialization
+    /**
+     * more stuff.
+     */
     private Stage editChoiceStage;
+    /**
+     * more more more stuff.
+     */
     private DBEdit dbedit;
+    /**
+     * even more.
+     */
     private ListButtonPane monsterEditPane;
+    /**
+     * this is insane.
+     */
     private ListButtonPane monsterAddRemovePane;
+    /**
+     * wow this is a lot.
+     */
     private ListButtonPane treasureAddRemovePane;
+    /**
+     * this is crazy stuff.
+     */
     private ListButtonPane treasureAddPane;
+    /**
+     * really crazy.
+     */
     private ListButtonPane monsterEditDBPane;
 
     /*a call to start replaces a call to the constructor for a JavaFX GUI*/
+    /**
+     * the start method.
+     * @param assignedStage stage
+     */
     @Override
     public void start(Stage assignedStage) {
         /*Initializing instance variables */
@@ -76,6 +121,9 @@ public class GuiDemo<toReturn> extends Application {
         primaryStage.show();
     }
 
+    /**
+     * stuffff.
+     */
     private void createMonsterEditPane() {
         monsterEditPane = new ListButtonPane("Add/Edit Monster", 600, 300);
         monsterEditPane.getLeftPanelLabel().setText("Monsters from Database");
@@ -85,6 +133,9 @@ public class GuiDemo<toReturn> extends Application {
         setMonsterEditPaneButtonActions();
     }
 
+    /**
+     * method for hting above.
+     */
     private void updateMonsterEditPaneList() {
         monsterEditPane.setList(theController.getMonsterListDatabase());
 
@@ -93,6 +144,9 @@ public class GuiDemo<toReturn> extends Application {
         }
     }
 
+    /**
+     * another method for thing above there are more of these too.
+     */
     private void setMonsterEditPaneButtonActions() {
         monsterEditPane.getRightPanelTopButton().setOnAction(event -> {
             if (monsterEditPane.listHasSelection()) {
@@ -107,8 +161,9 @@ public class GuiDemo<toReturn> extends Application {
         });
     }
 
-
-
+    /**
+     * another pane.
+     */
     private void createMonsterEditDBPane() {
         monsterEditDBPane = new ListButtonPane("Edit Database", 600, 300);
         monsterEditDBPane.getLeftPanelLabel().setText("Monsters from Database");
@@ -118,6 +173,9 @@ public class GuiDemo<toReturn> extends Application {
         setMonsterEditDBPaneButtonActions();
     }
 
+    /**
+     * really just helper methods.
+     */
     private void updateMonsterEditDBPaneList() {
         monsterEditDBPane.setList(theController.getMonsterListDatabase());
 
@@ -126,8 +184,10 @@ public class GuiDemo<toReturn> extends Application {
         }
     }
 
+    /**
+     * another one.
+     */
     private void setMonsterEditDBPaneButtonActions() {
-        
         monsterEditDBPane.getRightPanelTopButton().setOnAction(event -> {
             dbedit = new DBEdit();
             dbedit.getStage().show();
@@ -149,8 +209,11 @@ public class GuiDemo<toReturn> extends Application {
         });
     }
 
+    /**
+     * another one.
+     */
     private void setUpDBEdit() {
-        dbedit.getStage().setOnHidden(event -> { 
+        dbedit.getStage().setOnHidden(event -> {
             updateMonsterEditDBPaneList();
             updateMonsterEditPaneList();
             updateMonsterAddRemovePaneList();
@@ -158,6 +221,9 @@ public class GuiDemo<toReturn> extends Application {
     }
 
 
+    /**
+     * for another pane they are all of this same template.
+     */
     private void createMonsterAddRemovePane() {
         monsterAddRemovePane = new ListButtonPane("Add/Remove Monster", 600, 300);
         monsterAddRemovePane.getLeftPanelLabel().setText("Monsters in Space");
@@ -167,14 +233,19 @@ public class GuiDemo<toReturn> extends Application {
         setMonsterAddRemovePaneButtonActions();
     }
 
+    /**
+     * more helper methods.
+     */
     private void updateMonsterAddRemovePaneList() {
         monsterAddRemovePane.setList(theController.getMonsterListInSpace(getSelectedSpace()));
-        
         if (mainText != null) {
             updateMainDescriptionText();
         }
     }
 
+    /**
+     * even more helper methods.
+     */
     private void setMonsterAddRemovePaneButtonActions() {
         monsterAddRemovePane.getRightPanelTopButton().setOnAction(event -> {
             monsterEditPane.getStage().show();
@@ -188,6 +259,7 @@ public class GuiDemo<toReturn> extends Application {
         });
     }
 
+    /** another helper method. */
     private void createTreasureAddRemovePane() {
         treasureAddRemovePane = new ListButtonPane("Add/Remove Treasure", 600, 300);
         treasureAddRemovePane.getLeftPanelLabel().setText("Treasure in Space");
@@ -197,6 +269,9 @@ public class GuiDemo<toReturn> extends Application {
         setTreasureAddRemovePaneButtonActions();
     }
 
+    /**
+     * another one yo.
+     */
     private void updateTreasureAddRemovePaneList() {
         treasureAddRemovePane.setList(theController.getTreasureListInSpace(getSelectedSpace()));
 
@@ -205,12 +280,13 @@ public class GuiDemo<toReturn> extends Application {
         }
     }
 
+    /** wow how many is this now. */
     private void setTreasureAddRemovePaneButtonActions() {
-        treasureAddRemovePane.getRightPanelTopButton().setOnAction(event ->{
+        treasureAddRemovePane.getRightPanelTopButton().setOnAction(event -> {
                 treasureAddPane.getStage().show();
         });
 
-        treasureAddRemovePane.getRightPanelBottomButton().setOnAction(event ->{
+        treasureAddRemovePane.getRightPanelBottomButton().setOnAction(event -> {
             System.out.println("remove treasure button");
             if (treasureAddRemovePane.listHasSelection()) {
                 theController.removeTreasureFromSpace(treasureAddRemovePane.getSelectedIndex(), getSelectedSpace());
@@ -219,6 +295,9 @@ public class GuiDemo<toReturn> extends Application {
         });
     }
 
+    /**
+     * i made a lot of these didnt i.
+     */
     private void createTreasureAddPane() {
         treasureAddPane = new ListButtonPane("Add Treasure", 600, 300);
         treasureAddPane.getLeftPanelLabel().setText("Treasure");
@@ -228,6 +307,9 @@ public class GuiDemo<toReturn> extends Application {
         setTreasureAddPaneButtonActions();
     }
 
+    /**
+     * these could almost certainly be made better.
+     */
     private void updateTreasureAddPaneList() {
         treasureAddPane.setList(theController.getTreasureListDatabase());
 
@@ -236,8 +318,11 @@ public class GuiDemo<toReturn> extends Application {
         }
     }
 
+    /**
+     * im not sure how i would do that though.
+     */
     private void setTreasureAddPaneButtonActions() {
-        treasureAddPane.getRightPanelTopButton().setOnAction(event ->{
+        treasureAddPane.getRightPanelTopButton().setOnAction(event -> {
             System.out.println("add treasure button");
             if (treasureAddPane.listHasSelection()) {
                 theController.addTreasureToSpace(treasureAddPane.getSelectedIndex(), getSelectedSpace());
@@ -245,11 +330,14 @@ public class GuiDemo<toReturn> extends Application {
             }
         });
 
-        treasureAddPane.getRightPanelBottomButton().setOnAction(event ->{
+        treasureAddPane.getRightPanelBottomButton().setOnAction(event -> {
             treasureAddPane.getStage().hide();
         });
     }
 
+    /**
+     * now into different territory.
+     */
     private void createEditChoiceStage() {
         editChoiceStage = new Stage();
         createEditChoicePane();
@@ -259,6 +347,10 @@ public class GuiDemo<toReturn> extends Application {
         editChoiceStage.setScene(editChoiceScene);
     }
 
+    /**
+     * spooky stuff a return type wow.
+     * @return idk something
+     */
     private BorderPane createEditChoicePane() {
         editChoicePane = new BorderPane();
 
@@ -268,25 +360,28 @@ public class GuiDemo<toReturn> extends Application {
         return editChoicePane;
     }
 
+    /**
+     * does something.
+     * @return yes it does
+     */
     private Node createEditSceneChoices() {
         HBox toReturn = new HBox();
         Button monsterButton = new Button("Add/Remove Monster");
         Button treasureButton = new Button("Add/Remove Treasure");
         toReturn.setAlignment(Pos.CENTER);
         toReturn.setSpacing(30);
-        monsterButton.setOnAction(event ->{
+        monsterButton.setOnAction(event -> {
             monsterAddRemovePane.getStage().show();
             editChoiceStage.hide();
         });
 
-        treasureButton.setOnAction(event ->{
+        treasureButton.setOnAction(event -> {
             treasureAddRemovePane.getStage().show();
             editChoiceStage.hide();
         });
 
         toReturn.getChildren().add(monsterButton);
         toReturn.getChildren().add(treasureButton);
-
         return toReturn;
     }
 
@@ -295,11 +390,15 @@ public class GuiDemo<toReturn> extends Application {
      * @return the index of the selected space
      */
     private Integer getSelectedSpace() {
-        return (Integer)list.getSelectionModel().getSelectedIndex();
+        return (Integer) list.getSelectionModel().getSelectedIndex();
     }
 
 //this method sets up the main sort of stage
 //this is where methods that set up different buttons will go
+    /**
+     * yeeeeee.
+     * @return lets go
+     */
     private BorderPane setUpRoot() {
         BorderPane temp = new BorderPane();
         temp.styleProperty().set("-fx-background-color: #262626");
@@ -468,7 +567,7 @@ public class GuiDemo<toReturn> extends Application {
 
 
     /**
-     * updates the windows of the monster and treasure selection windows
+     * updates the windows of the monster and treasure selection windows.
      */
     private void updateMonsterTreasureWindows() {
         updateTreasureAddRemovePaneList();
@@ -479,9 +578,9 @@ public class GuiDemo<toReturn> extends Application {
      * updates the main description text.
      */
     private void updateMainDescriptionText() {
-        for(Object o : list.getSelectionModel().getSelectedIndices()){
-            changeMainDescriptionText(theController.getNewLeftPanelDescription((Integer)o));
-            updateDoorList((Integer)o);
+        for (Object o : list.getSelectionModel().getSelectedIndices()) {
+            changeMainDescriptionText(theController.getNewLeftPanelDescription((Integer) o));
+            updateDoorList((Integer) o);
         }
 
     }
@@ -513,7 +612,7 @@ public class GuiDemo<toReturn> extends Application {
      * generates the entirety of the left panel.
      * @return the node containing the vbox in the left panel.
      */
-    private Node setLeftButtonPanel(){
+    private Node setLeftButtonPanel() {
         VBox toReturn = new VBox();
         toReturn.setAlignment(Pos.CENTER);
 

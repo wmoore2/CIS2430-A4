@@ -3,7 +3,6 @@ package database;
 import java.util.ArrayList;
 import java.sql.*;
 
-
 public class DBConnection implements java.io.Serializable{
 	
 	private Connection conn = null;
@@ -11,8 +10,6 @@ public class DBConnection implements java.io.Serializable{
     private ResultSet rs = null;
     private String username;
     private String password;
-	
-
 	
 	public DBConnection(){
 		this(DBDetails.username, DBDetails.password);

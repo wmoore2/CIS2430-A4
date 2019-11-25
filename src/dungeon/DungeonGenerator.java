@@ -6,11 +6,10 @@ import java.util.HashSet;
 import database.DBMonster;
 import database.DBConnection;
 import dnd.models.Treasure;
-import dnd.models.Monster;
 import dnd.die.D20;
 import dnd.die.Percentile;
 
-public class DungeonGenerator implements java.io.Serializable{
+public class DungeonGenerator implements java.io.Serializable {
     /**
      * Stores the chambers being used in the dungeon.
      */
@@ -39,7 +38,9 @@ public class DungeonGenerator implements java.io.Serializable{
      * hashmap of doors to the chambers they connect to.
      */
     private HashMap<Door, ArrayList<Chamber>> doorMap;
-
+    /**
+     * idk.
+     */
     private HashSet<Treasure> treasureList;
 
     /**
@@ -70,6 +71,9 @@ public class DungeonGenerator implements java.io.Serializable{
         initDungeon();
     }
 
+    /**
+     * gets list.
+     */
     private void generateTreasureList() {
         treasureList = new HashSet<Treasure>();
         Treasure temp;
@@ -81,6 +85,10 @@ public class DungeonGenerator implements java.io.Serializable{
         }
     }
 
+    /**
+     * does stuff.
+     * @return idk
+     */
     public ArrayList<String> getPossibleTreasure() {
         ArrayList<String> toReturn = new ArrayList<String>();
         ArrayList<Treasure> temp = new ArrayList<Treasure>(treasureList);
@@ -90,6 +98,11 @@ public class DungeonGenerator implements java.io.Serializable{
         return toReturn;
     }
 
+    /**
+     * does things.
+     * @param  index param
+     * @return       return
+     */
     public ArrayList<String> getTreasureListFromSpace(Integer index) {
         ArrayList<String> toReturn = new ArrayList<String>();
         if (index == -1) {
@@ -101,6 +114,11 @@ public class DungeonGenerator implements java.io.Serializable{
         return toReturn;
     }
 
+    /**
+     * yeet.
+     * @param  index this assignment
+     * @return       idk
+     */
     public ArrayList<String> getMonsterListFromSpace(Integer index) {
         ArrayList<String> toReturn = new ArrayList<String>();
         if (index == -1) {
@@ -112,12 +130,21 @@ public class DungeonGenerator implements java.io.Serializable{
         return toReturn;
     }
 
+    /**
+     * gonna do bad.
+     * @param  index cuz
+     * @return       these comments are good
+     */
     public String getMonsterFromDatabase(Integer index) {
         DBConnection db = new DBConnection();
         DBMonster temp = new DBMonster();
         return temp.stringToMonster(db.getAllMonsters().get(index)).getName();
     }
 
+    /**
+     * yup does stuff.
+     * @return the return val
+     */
     public ArrayList<String> getDatabaseMonsterList() {
         ArrayList<String> toReturn = new ArrayList<String>();
         ArrayList<DBMonster> temp = new ArrayList<DBMonster>();
@@ -135,6 +162,11 @@ public class DungeonGenerator implements java.io.Serializable{
         return toReturn;
     }
 
+    /**
+     * read the title yo.
+     * @param itemIndex  the index
+     * @param spaceIndex other index
+     */
     public void addMonsterToSpace(Integer itemIndex, Integer spaceIndex) {
         DBConnection db = new DBConnection();
         DBMonster tempMonster;
@@ -150,31 +182,45 @@ public class DungeonGenerator implements java.io.Serializable{
         getSpaces().get(spaceIndex).addMonster(temp);
     }
 
+    /**
+     * see somewhere else for details.
+     * @param itemIndex  y
+     * @param spaceIndex n
+     */
     public void removeMonsterFromSpace(Integer itemIndex, Integer spaceIndex) {
         DBMonster temp = getSpaces().get(spaceIndex).getMonsters().get(itemIndex);
         getSpaces().get(spaceIndex).removeMonster(temp);
     }
 
+    /**
+     * at least checkstyle is fine with this.
+     * @param itemIndex  idk
+     * @param spaceIndex yes
+     */
     public void addTreasureToSpace(Integer itemIndex, Integer spaceIndex) {
         ArrayList<Treasure> tempList = new ArrayList<Treasure>(treasureList);
         Treasure temp = tempList.get(itemIndex);
         getSpaces().get(spaceIndex).addTreasure(temp);
     }
 
+    /**
+     * yupyupyup.
+     * @param itemIndex  yes
+     * @param spaceIndex yes
+     */
     public void removeTreasureFromSpace(Integer itemIndex, Integer spaceIndex) {
         Treasure temp = getSpaces().get(spaceIndex).getTreasureList().get(itemIndex);
         getSpaces().get(spaceIndex).removeTreasure(temp);
     }
 
     /**
-     * 
      * gets the description of a given door from a given space.
      * @param  spaceIndex the index of the spaces
      * @param  doorIndex  the index of the door
      * @return the string containing the description.
      */
     public String getDoorDescriptionFromSpace(Integer spaceIndex, Integer doorIndex) {
-        Door temp = (Door)getSpaces().get(spaceIndex).getDoors().get(doorIndex);
+        Door temp = (Door) getSpaces().get(spaceIndex).getDoors().get(doorIndex);
         String toReturn = "Door " + (doorIndex + 1) + "\n";
         toReturn = toReturn.concat(temp.getDescription());
         if (temp.getSpaces().get(1) instanceof Chamber) {
@@ -209,7 +255,7 @@ public class DungeonGenerator implements java.io.Serializable{
      * @param  index the index to get the description of
      * @return       the string
      */
-    public String getSpaceDescription(int index){
+    public String getSpaceDescription(int index) {
         ArrayList<Space> temp = getSpaces();
         if (index > temp.size()) {
             return "out of bounds";
@@ -225,9 +271,9 @@ public class DungeonGenerator implements java.io.Serializable{
     public ArrayList<String> getSpaceNames() {
         ArrayList<String> toReturn = new ArrayList<String>();
         for (Space s : getSpaces()) {
-            if(s instanceof Chamber) {
+            if (s instanceof Chamber) {
                 toReturn.add("Chamber " + (s.getSpaceNum() + 1));
-            } else if (s instanceof Passage) { 
+            } else if (s instanceof Passage) {
                 toReturn.add("Passage " + (s.getSpaceNum() + 1));
             }
         }
@@ -266,7 +312,7 @@ public class DungeonGenerator implements java.io.Serializable{
             for (Door d : theList) {
                 temp = new Door(false, 0);
                 try {
-                    temp = (Door)d.clone();
+                    temp = (Door) d.clone();
                 } catch (CloneNotSupportedException e) {
                     System.out.println("Clone not supported.");
                 }

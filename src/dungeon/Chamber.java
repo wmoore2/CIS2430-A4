@@ -3,7 +3,6 @@ package dungeon;
 import dnd.models.ChamberContents;
 import dnd.models.ChamberShape;
 import database.DBMonster;
-import dnd.models.Monster;
 import dnd.models.Treasure;
 import dnd.models.Stairs;
 import dnd.models.Trap;
@@ -14,7 +13,7 @@ import dnd.exceptions.UnusualShapeException;
 import dnd.exceptions.NotProtectedException;
 import java.util.ArrayList;
 
-public class Chamber extends Space implements java.io.Serializable{
+public class Chamber extends Space implements java.io.Serializable {
     /**
      * roll for nothing.
      */
@@ -516,11 +515,9 @@ public class Chamber extends Space implements java.io.Serializable{
                 break;
             case SPECIAL_ROLL:
                 toReturn = toReturn.concat("Contents:" + getStairsDesc(0) + "\n");
-                
                 break;
             case TRAP_ROLL:
                 toReturn = toReturn.concat("Contents:" + getTrapDesc(0) + "\n");
-                
                 break;
             case TREASURE_ROLL:
                 break;

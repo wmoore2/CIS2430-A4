@@ -7,7 +7,7 @@ import dnd.die.D10;
 import dnd.die.D6;
 import java.util.ArrayList;
 
-public class Door implements Cloneable, java.io.Serializable{
+public class Door implements Cloneable, java.io.Serializable {
     /**
      * constant for archway.
      */
@@ -252,7 +252,7 @@ public class Door implements Cloneable, java.io.Serializable{
      * @throws CloneNotSupportedException idk
      */
     public Object clone() throws CloneNotSupportedException {
-        Door toReturn = (Door)super.clone();
+        Door toReturn = (Door) super.clone();
         toReturn.spaceList = new ArrayList<Space>();
         toReturn.spaceList.addAll(getSpaces());
         toReturn.connectedTo = connectedTo;

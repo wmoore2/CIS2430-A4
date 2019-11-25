@@ -1,53 +1,77 @@
 package gui;
 
-import javafx.application.Application;
-import javafx.collections.ObservableList;
-import javafx.collections.*;
-import javafx.event.ActionEvent;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
 import javafx.scene.control.Button;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.control.TextArea;
-import javafx.scene.text.Text;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 
-public class ListButtonPane{
+public class ListButtonPane {
 
+    /**
+     * why do i have to do these.
+     */
     private ListView leftPanelList;
+    /**
+     * ..
+     */
     private Label leftPanelLabel;
+    /**
+     * ...
+     */
     private Label emptyLabel;
+    /**
+     * ..
+     */
     private VBox leftPanel;
+    /**
+     * .
+     */
     private VBox rightPanel;
+    /**
+     * .
+     */
     private Button topButton;
+    /**
+     * .
+     */
     private Button bottomButton;
+    /**
+     * .
+     */
     private BorderPane thePane;
+    /**
+     * .
+     */
     private Stage theStage;
+    /**
+     * .
+     */
     private Scene theScene;
 
+    /**
+     * does the thing.
+     * @param  title the title.
+     * @param  x     x
+     * @param  y     y
+     */
     public ListButtonPane(String title, int x, int y) {
         initElements();
         setUpStage();
-        Scene theScene = new Scene(thePane, x, y);
+        theScene = new Scene(thePane, x, y);
         theScene.getStylesheets().add("/res/stylesheet.css");
         theStage.setTitle(title);
         theStage.setScene(theScene);
     }
 
+    /**
+     * sets up the stage.
+     */
     private void setUpStage() {
         theStage = new Stage();
         theStage.setOnCloseRequest(event -> {
@@ -56,6 +80,9 @@ public class ListButtonPane{
 
     }
 
+    /**
+     * inits elements.
+     */
     private void initElements() {
         leftPanelList = createLeftPanelList();
         leftPanelLabel = createLeftPanelLabel();
@@ -65,6 +92,10 @@ public class ListButtonPane{
         thePane = setUpRoot();
     }
 
+    /**
+     * creates emtpy label.
+     * @return the label.
+     */
     private Label createEmptyLabel() {
         emptyLabel = new Label("The List is Currently Empty");
         return emptyLabel;
@@ -102,7 +133,6 @@ public class ListButtonPane{
     private Button createRightPanelTopButton() {
         topButton = new Button("Top");
         topButton.setPrefWidth(180);
-        
         return topButton;
     }
 
@@ -122,7 +152,6 @@ public class ListButtonPane{
      */
     private ListView createLeftPanelList() {
         leftPanelList = new ListView();
-        
         return leftPanelList;
     }
 
@@ -180,11 +209,11 @@ public class ListButtonPane{
     }
 
     /**
-     * gets the index of the selected list entry
+     * gets the index of the selected list entry.
      * @return the index
      */
     public Integer getSelectedIndex() {
-        return (Integer)leftPanelList.getSelectionModel().getSelectedIndex();
+        return (Integer) leftPanelList.getSelectionModel().getSelectedIndex();
     }
 
     /**
@@ -192,7 +221,7 @@ public class ListButtonPane{
      * @return the string
      */
     public String getSelectedEntry() {
-        return (String)getLeftPanelList().getItems().get((Integer)getSelectedIndex());
+        return (String) getLeftPanelList().getItems().get((Integer) getSelectedIndex());
     }
 
     /**

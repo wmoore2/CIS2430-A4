@@ -1,13 +1,12 @@
 package dungeon;
 
-import dnd.models.Monster;
 import database.DBMonster;
 import dnd.models.Treasure;
 import dnd.exceptions.NotProtectedException;
 import java.util.HashMap;
 import dnd.die.D20;
 
-public class PassageSection implements java.io.Serializable{
+public class PassageSection implements java.io.Serializable {
     /**
      * Hashmap containing teh table for passage section rolls.
      */
@@ -28,6 +27,9 @@ public class PassageSection implements java.io.Serializable{
     *   the monster in the passage.
     **/
     private DBMonster passageMonster;
+    /**
+     * stuff.
+     */
     private Treasure passageTreasure;
     /**
     *   the door in the passage.
@@ -37,6 +39,9 @@ public class PassageSection implements java.io.Serializable{
     *   tells wether or not there is a monster.
     **/
     private boolean monsterBool;
+    /**
+     * idk.
+     */
     private boolean treasureBool;
     /**
     *   tells wether there is a door or not.
@@ -306,7 +311,7 @@ public class PassageSection implements java.io.Serializable{
             } catch (NotProtectedException e)  {
                 toReturn = toReturn.concat("unprotected");
             }
-        } 
+        }
         return toReturn;
     }
 
@@ -317,8 +322,7 @@ public class PassageSection implements java.io.Serializable{
     private String genDoorDescription() {
         String toReturn = new String("");
         if (hasDoor()) {
-                toReturn = toReturn.concat(getDoor().getDescription());
-            
+            toReturn = toReturn.concat(getDoor().getDescription());
             toReturn = toReturn.concat("\t\tDoor is connected to: ");
             if (getDoor().getConnectType() == CHAMBER) {
                 toReturn = toReturn.concat("Chamber " + getDoor().getSpaceNumIndex(1));

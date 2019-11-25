@@ -24,6 +24,9 @@ public class DBMonster implements java.io.Serializable{
 	
     //might be easier to make some constructors here
 
+	/**
+	 * sets the monster to be a random monster.
+	 */
 	public void setRandomMonster() {
 		DBConnection temp = new DBConnection();
 		ArrayList<String> list = temp.getAllMonsters();
@@ -31,6 +34,11 @@ public class DBMonster implements java.io.Serializable{
         this.stringToMonster(list.get(rand.nextInt(list.size())));
 	}
 
+	/**
+	 * takes a string and turns it into a monster
+	 * @param  theString [description]
+	 * @return           [description]
+	 */
 	public DBMonster stringToMonster(String theString) {
 		/*THIS LINE OF CODE IS TAKEN FROM STACKOVERFLOW
 		 https://stackoverflow.com/questions/1757065/java-splitting-a-comma-separated-string-but-ignoring-commas-in-quotes

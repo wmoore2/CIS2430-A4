@@ -1,14 +1,13 @@
 package dungeon;
 
 import database.DBMonster;
-import dnd.models.Monster;
 import dnd.models.Treasure;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-public class Passage extends Space implements java.io.Serializable{
+public class Passage extends Space implements java.io.Serializable {
     /**
      * the roll for a chamber.
      */
@@ -37,7 +36,13 @@ public class Passage extends Space implements java.io.Serializable{
      * hasmap of doors and sections.
      */
     private HashMap<Door, PassageSection> doorMap;
+    /**
+     * yes.
+     */
     private HashMap<Treasure, ArrayList<PassageSection>> treasureMap;
+    /**
+     * javadoc.
+     */
     private HashMap<DBMonster, ArrayList<PassageSection>> monsterMap;
 
     /**

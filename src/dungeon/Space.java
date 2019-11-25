@@ -2,10 +2,9 @@ package dungeon;
 
 import java.util.ArrayList;
 import dnd.models.Treasure;
-import dnd.models.Monster;
 import database.DBMonster;
 
-public abstract class Space implements java.io.Serializable{
+public abstract class Space implements java.io.Serializable {
     /**
     *   the door the space is generated off of.
     **/
@@ -51,7 +50,7 @@ public abstract class Space implements java.io.Serializable{
     public abstract String getDescription();
 
     /**
-     * gets the treasure in the space;
+     * gets the treasure in the space.
      * @return the list of treasure
      */
     public abstract ArrayList<Treasure> getTreasureList();

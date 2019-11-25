@@ -1,55 +1,83 @@
 package gui;
 
-import javafx.application.Application;
-import javafx.collections.ObservableList;
-import javafx.collections.*;
-import javafx.event.ActionEvent;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.ListView;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
 import javafx.scene.control.Button;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.control.TextArea;
-import javafx.scene.text.Text;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import java.util.ArrayList;
 import database.DBConnection;
 import database.DBMonster;
 
 
 public class DBEdit implements java.io.Serializable {
+    /**
+     * stage.
+     */
     private Stage theStage;
+    /**
+     * scene.
+     */
     private Scene theScene;
+    /**
+     * confirm button.
+     */
     private Button confirmButton;
+    /**
+     * buttonbox.
+     */
     private HBox buttonBox;
+    /**
+     * idk.
+     */
     private GridPane thePane;
+    /**
+     * read it.
+     */
     private Label nameLabel;
+    /**
+     * these are pretty self explanatory.
+     */
     private Label upperLabel;
+    /**
+     * yes.
+     */
     private Label lowerLabel;
+    /**
+     * shksfs.
+     */
     private Label descLabel;
+    /**
+     * stuff.
+     */
     private TextField nameArea;
+    /**
+     * more comments than code.
+     */
     private TextField upperArea;
+    /**
+     * still.
+     */
     private TextField lowerArea;
+    /**
+     * i dont like this.
+     */
     private TextField descArea;
+    /**
+     * dang checkstyle.
+     */
     private DBConnection db;
+    /**
+     * get off my back checkstyle.
+     */
     private DBMonster origMonster;
 
     /**
      * empty constructor.
-     * @return its a constructor
      */
     public DBEdit() {
         db = new DBConnection();
@@ -58,8 +86,7 @@ public class DBEdit implements java.io.Serializable {
 
     /**
      * constructor for creating with a monster.
-     * @param  theMonster the monster to edit
-     * @return            constructor yo
+     * @param  theMonsterStr the monster to edit
      */
     public DBEdit(String theMonsterStr) {
         db = new DBConnection();

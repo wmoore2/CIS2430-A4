@@ -16,3 +16,6 @@ The bonus parts i did for this assignment include:
     Editing for Monster Database (20 marks)
 
 for a total of 50 possible bonus marks.
+
+Additionally, the checkstyle for code given by Judi has not been made to conform to it.
+All of my own code conforms, please do not take off marks for judis files not conforming.
